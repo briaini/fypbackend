@@ -36,16 +36,16 @@ public class PostController {
         return postRepository.findAll();
     }
 
-    //TODO: need to take in post and userID, link them
-    @PostMapping(path = "link") // Map ONLY POST Requests
-    public String linkPostToUser(@RequestBody String body) {
-//        PersistUser user = userRepository.findById(0).get();
-        PersistUser user = new PersistUser("postuser","password","PATIENT",1,1,1,1);
-        Post post = new Post("joinTitle", "joinDesc", "text", "joinCat", "www.google.com", "www.google.com");
-        user.getPosts().add(post);
-        userRepository.save(user);
-        return "hello";
-    }
+//    //TODO: need to take in post and userID, link them
+//    @PostMapping(path = "link") // Map ONLY POST Requests
+//    public String linkPostToUser(@RequestBody String body) {
+////        PersistUser user = userRepository.findById(0).get();
+//        PersistUser user = new PersistUser("postuser","password","PATIENT",1,1,1,1);
+//        Post post = new Post("joinTitle", "joinDesc", "text", "joinCat", "www.google.com", "www.google.com");
+//        user.getPosts().add(post);
+//        userRepository.save(user);
+//        return "hello";
+//    }
 
     //Works for one-to-many
 //    @PostMapping(path = "") // Map ONLY POST Requests

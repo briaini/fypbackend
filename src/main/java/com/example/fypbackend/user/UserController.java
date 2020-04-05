@@ -75,6 +75,16 @@ public class UserController {
         return patients;
     }
 
+    @PostMapping(path = "/{patientId}/posts/{postId}")
+    public String linkPostTopPatient(@PathVariable("patientId") Integer patientId, @PathVariable("postId") Integer postId) {
+        PersistUser user = persistUserRepository.findById(patientId).get();
+//        PersistUser user = new PersistUser("postuser","password","PATIENT",1,1,1,1);
+//        Post post = new Post("joinTitle", "joinDesc", "text", "joinCat", "www.google.com", "www.google.com");
+        user.getPosts().add(postRepository.findById(postId).get());
+        persistUserRepository.save(user);
+        return "hello";
+    }
+
 
 //    @GetMapping(path = "/test")
 ////    public String testingUserId(@PathVariable("userId") String username) {
