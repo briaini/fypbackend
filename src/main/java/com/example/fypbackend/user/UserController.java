@@ -1,13 +1,18 @@
 package com.example.fypbackend.user;
 
+import com.example.fypbackend.auth.Patient;
 import com.example.fypbackend.auth.PersistUser;
 import com.example.fypbackend.auth.PersistUserRepository;
 import com.example.fypbackend.comment.CommentRepository;
 import com.example.fypbackend.posts.Post;
 import com.example.fypbackend.posts.PostRepository;
 import com.google.gson.Gson;
+import org.apache.catalina.mapper.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -26,9 +31,8 @@ public class UserController {
         return persistUserRepository.getUserId(username);
     }
 
-    @PostMapping(path = "") // Map ONLY POST Requests
-    public @ResponseBody
-    String createUser(@RequestBody String body) {
+    @PostMapping(path = "")
+    public @ResponseBody String createUser(@RequestBody String body) {
         Gson gson = new Gson();
         PersistUser user = gson.fromJson(body, PersistUser.class);
         persistUserRepository.save(user);
@@ -48,6 +52,27 @@ public class UserController {
 //            System.out.println(x.toString());
 //        });
 //        return postRepository.findUserPosts(userId);
+    }
+
+
+    @PostMapping(path = "/{patientId}/users/{mdtId}") // Map ONLY POST Requests
+    public String linkPatientToMDT(@PathVariable("patientId") Integer patientId, @PathVariable("mdtId") Integer mdtId) {
+        PersistUser patient = persistUserRepository.findById(patientId).get();
+        PersistUser mdtMember = persistUserRepository.findById(mdtId).get();
+        patient.getProfessionals().add(mdtMember);
+        persistUserRepository.save(patient);
+        return "Added mdtMember to patient";
+    }
+
+    @GetMapping(path = "/{mdtId}/patients")
+    public List<Patient> getPatients(@PathVariable("mdtId") Integer mdtId) {
+        List<PersistUser> patientsBefore = persistUserRepository.findById(mdtId).get().getPatients();
+        Mapper mapper = new Mapper();
+
+        List<Patient> patients = (List<Patient>) patientsBefore.stream()
+                .map(x -> new Patient(x.getId(), x.getUsername(), x.getPosts().stream().map(post -> post.getId()).collect(Collectors.toList()), x.getProfessionals().stream().map(pro -> pro.getId()).collect(Collectors.toList()))).collect(Collectors.toList());
+
+        return patients;
     }
 
 

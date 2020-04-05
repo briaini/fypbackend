@@ -1,9 +1,11 @@
 package com.example.fypbackend.auth;
 
+import com.example.fypbackend.comment.Comment;
 import com.example.fypbackend.posts.Post;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -37,6 +39,23 @@ public class PersistUser {
                             nullable = false, updatable = false)})
     private Set<Post> posts = new HashSet<>();
 
+
+    //MDT relationship
+    @ManyToMany
+    @JoinTable(name="mdt_patient",
+            joinColumns=@JoinColumn(name="professionalId"),
+            inverseJoinColumns=@JoinColumn(name="patientId")
+    )
+    private List<PersistUser> professionals;
+
+    @ManyToMany
+    @JoinTable(name="mdt_patient",
+            joinColumns=@JoinColumn(name="patientId"),
+            inverseJoinColumns=@JoinColumn(name="professionalId")
+    )
+    private List<PersistUser> patients;
+
+
     public Integer getId() {
         return id;
     }
@@ -51,6 +70,22 @@ public class PersistUser {
 
     public void setPosts(Set<Post> posts) {
         this.posts = posts;
+    }
+
+    public List<PersistUser> getProfessionals() {
+        return professionals;
+    }
+
+    public void setProfessionals(List<PersistUser> professionals) {
+        this.professionals = professionals;
+    }
+
+    public List<PersistUser> getPatients() {
+        return patients;
+    }
+
+    public void setPatients(List<PersistUser> patients) {
+        this.patients = patients;
     }
 
     public PersistUser() {}

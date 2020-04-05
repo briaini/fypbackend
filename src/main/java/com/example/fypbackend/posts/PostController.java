@@ -2,7 +2,6 @@ package com.example.fypbackend.posts;
 
 import com.example.fypbackend.auth.PersistUser;
 import com.example.fypbackend.auth.PersistUserRepository;
-import com.example.fypbackend.student.Student;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -66,6 +65,4 @@ public class PostController {
 //                .findFirst()
 //                .orElseThrow(() ->new IllegalStateException("student " + postId + "doesn't exist"));
     }
-
-
 }
