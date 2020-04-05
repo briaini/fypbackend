@@ -1,13 +1,8 @@
 package com.example.fypbackend.comment;
 
-import com.example.fypbackend.auth.PersistUser;
 import com.example.fypbackend.posts.Post;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 
 @Entity
@@ -20,28 +15,11 @@ public class Comment {
     String textBody;
 //    Date date;
 
-//    @ManyToMany(mappedBy = "comments", fetch = FetchType.LAZY)
-//    private Set<Post> posts = new HashSet<>();
-
-//    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-//    @JoinTable(name = "posts_comments",
-//            joinColumns = {
-//                    @JoinColumn(name = "post_id", referencedColumnName = "id",
-//                            nullable = false, updatable = false)},
-//            inverseJoinColumns = {
-//                    @JoinColumn(name = "comment_id",
-//                            nullable = false, updatable = false)})
-//    private Set<Comment> comments = new HashSet<>();
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "post", nullable = false)
+    private Post post;
 
     public Comment() {}
-
-//    public Comment(int userId, int postId, String textBody, Date date) {
-//        System.out.print("creating comment with args");
-//        this.userId = userId;
-//        this.postId = postId;
-//        this.textBody = textBody;
-//        this.date = date;
-//    }
 
     public int getId() {
         return id;
@@ -66,14 +44,14 @@ public class Comment {
     public void setTextBody(String textBody) {
         this.textBody = textBody;
     }
-//
-//    public Date getDate() {
-//        return date;
-//    }
-//
-//    public void setDate(Date date) {
-//        this.date = date;
-//    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
 
     @Override
     public String toString() {
@@ -81,7 +59,6 @@ public class Comment {
                 "id=" + id +
                 ", userId=" + userId +
                 ", textBody='" + textBody + '\'' +
-//                ", date=" + date +
                 '}';
     }
 }

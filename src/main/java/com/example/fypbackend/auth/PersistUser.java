@@ -53,10 +53,6 @@ public class PersistUser {
         this.posts = posts;
     }
 
-    //    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
-//            cascade = CascadeType.ALL)
-//    private Set<Post> posts;
-
     public PersistUser() {}
 
     public PersistUser(String username, String password, String role, int accountNonExpired, int accountNonLocked, int credentialsNonExpired, int enabled) {

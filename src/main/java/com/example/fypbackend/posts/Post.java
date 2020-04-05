@@ -20,8 +20,14 @@ public class Post {
     String link_url;
     String image_url;
 
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private Set<Comment> comments;
+
     @ManyToMany(mappedBy = "posts", fetch = FetchType.LAZY)
     private Set<PersistUser> users = new HashSet<>();
+
+
 
 //    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 //    @JoinTable(name = "posts_comments",
@@ -44,8 +50,6 @@ public class Post {
 
 
     public Post() {}
-
-
 
     public Integer getId() {
         return id;
@@ -87,21 +91,77 @@ public class Post {
         this.description = description;
     }
 
-    public String getLinkUrl() {
+    public String getLink_url() {
         return link_url;
     }
 
-    public void setLinkUrl(String linkUrl) {
-        this.link_url = linkUrl;
+    public void setLink_url(String link_url) {
+        this.link_url = link_url;
     }
 
-    public String getImageUrl() {
+    public String getImage_url() {
         return image_url;
     }
 
-    public void setImageUrl(String imageUrl) {
+    public void setImage_url(String image_url) {
         this.image_url = image_url;
     }
+
+    //    public Integer getId() {
+//        return id;
+//    }
+//
+//    public void setId(Integer id) {
+//        this.id = id;
+//    }
+//
+//    public String getMedia() {
+//        return media;
+//    }
+//
+//    public void setMedia(String media) {
+//        this.media = media;
+//    }
+//
+//    public String getCategory() {
+//        return category;
+//    }
+//
+//    public void setCategory(String category) {
+//        this.category = category;
+//    }
+//
+//    public String getTitle() {
+//        return title;
+//    }
+//
+//    public void setTitle(String title) {
+//        this.title = title;
+//    }
+//
+//    public String getDescription() {
+//        return description;
+//    }
+//
+//    public void setDescription(String description) {
+//        this.description = description;
+//    }
+//
+//    public String getLinkUrl() {
+//        return link_url;
+//    }
+//
+//    public void setLinkUrl(String linkUrl) {
+//        this.link_url = linkUrl;
+//    }
+//
+//    public String getImageUrl() {
+//        return image_url;
+//    }
+//
+//    public void setImageUrl(String imageUrl) {
+//        this.image_url = imageUrl;
+//    }
 
     @Override
     public String toString() {

@@ -23,16 +23,18 @@ public class PostController {
     private PersistUserRepository userRepository;
 
 //    Works normal createPost
-    @PostMapping(path = "") // Map ONLY POST Requests
-    public @ResponseBody
-      String createPost(@RequestBody String body) {
-//          System.out.println("test before Gson:\n " + body + "\n");
+    @PostMapping(path = "")
+    public @ResponseBody String createPost(@RequestBody String body) {
+          System.out.println("test before Gson:\n " + body + "\n");
           Gson gson = new Gson();
           Post post = gson.fromJson(body, Post.class);
-
-          postRepository.save(post);
-
+        postRepository.save(post);
         return "TODO";
+    }
+
+    @GetMapping(path = "")
+    public Iterable<Post> getAllPost() {
+        return postRepository.findAll();
     }
 
     //TODO: need to take in post and userID, link them
@@ -40,10 +42,8 @@ public class PostController {
     public String linkPostToUser(@RequestBody String body) {
 //        PersistUser user = userRepository.findById(0).get();
         PersistUser user = new PersistUser("postuser","password","PATIENT",1,1,1,1);
-        Post post = new Post("video", "joinCat", "joinTitle", "joinDesk", "joinlinkUrl", "joinImageUrl");
-
+        Post post = new Post("joinTitle", "joinDesc", "text", "joinCat", "www.google.com", "www.google.com");
         user.getPosts().add(post);
-
         userRepository.save(user);
         return "hello";
     }
@@ -66,4 +66,6 @@ public class PostController {
 //                .findFirst()
 //                .orElseThrow(() ->new IllegalStateException("student " + postId + "doesn't exist"));
     }
+
+
 }

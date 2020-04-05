@@ -11,10 +11,6 @@ import java.util.Optional;
 
 import com.example.fypbackend.security.UserRole;
 
-import static com.example.fypbackend.security.UserRole.ADMIN;
-import static com.example.fypbackend.security.UserRole.PATIENT;
-import static com.example.fypbackend.security.UserRole.ASISSTINANTTOTHEADMIN;
-
 @Repository("fake")
 public class FakeUserDaoService implements UserDao {
 
@@ -42,36 +38,6 @@ public class FakeUserDaoService implements UserDao {
 
         persistUsers.forEach((x) ->
             users.add(new User(x.getUsername(), passwordEncoder.encode(x.getPassword()), UserRole.valueOf(x.getRole()).getGrantedAuthorities(), x.getAccountNonExpired(), x.getAccountNonLocked(), x.getCredentialsNonExpired(), x.getEnabled())));
-
-//        List<User> users = Lists.newArrayList(
-//                 new User(
-//                        "brian",
-//                        passwordEncoder.encode("password"),
-//                        PATIENT.getGrantedAuthorities(),
-//                        true,
-//                        true,
-//                        true,
-//                        true
-//                        ),
-//                new User(
-//                        "rose",
-//                        passwordEncoder.encode("password"),
-//                        ADMIN.getGrantedAuthorities(),
-//                        true,
-//                        true,
-//                        true,
-//                        true
-//                        ),
-//                new User(
-//                        "skye",
-//                        passwordEncoder.encode("password"),
-//                        ASISSTINANTTOTHEADMIN.getGrantedAuthorities(),
-//                        true,
-//                        true,
-//                        true,
-//                        true
-//                        )
-//        );
 
         return users;
     }

@@ -1,15 +1,14 @@
 package com.example.fypbackend.comment;
 
 import com.example.fypbackend.posts.Post;
+import com.example.fypbackend.posts.PostRepository;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
-
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("")
@@ -18,37 +17,36 @@ public class CommentController {
     @Autowired
     private CommentRepository commentRepository;
 
-    @PostMapping(path = "/{userId}/comments") // Map ONLY POST Requests
-    public @ResponseBody
-    String createPost(@RequestBody String body, @PathVariable("userId") Integer userId) {
+    @Autowired
+    private PostRepository postRepository;
+
+    @PostMapping(path = "users/{userId}/posts/{postId}/comments") // Map ONLY POST Requests
+    public @ResponseBody String createComment(@RequestBody String body, @PathVariable("userId") Integer userId, @PathVariable("postId") Integer postId) {
         System.out.println("test before Gson:\n " + body + "\n");
+        System.out.println("userId:" + userId);
+        System.out.println("userId:" + postId);
+
+        Post post = postRepository.findById(postId).get();
         Gson gson = new Gson();
         Comment comment = gson.fromJson(body, Comment.class);
         comment.setUserId(userId);
+        comment.setPost(post);
+        System.out.println(comment);
         commentRepository.save(comment);
-        System.out.println("Comment created: " + comment.toString());
-        return "TODO";
-    }
-
-
-    @GetMapping(path = "/comments")
-    public Iterable<Comment> getAllComments() {
-        return commentRepository.findAll();
+        return "Comment created";
     }
 
     @GetMapping(path = "users/{userId}/comments")
     public Iterable<Comment> getAllComments(@PathVariable int userId) {
-        System.out.println(userId);
-        return commentRepository.findAll();
+//        public String getAllComments(@PathVariable int userId) {
+        System.out.println("getting comments");
+        System.out.println(commentRepository.findByUserId(0));
+        List<Comment> commentList = new ArrayList();
+        return commentRepository.findByUserId(userId);
     }
 
-
-    @GetMapping(path = "/comments/{commentId}")
-    public Comment getComment(@PathVariable("commentId") Integer commentId) {
-        return commentRepository.findById(commentId).orElseThrow(() -> new IllegalStateException("Comment (" + commentId + ") doesn't exist"));
-//                POSTS.stream()
-//                .filter(post -> postId.equals(post.getId()))
-//                .findFirst()
-//                .orElseThrow(() ->new IllegalStateException("student " + postId + "doesn't exist"));
+    @GetMapping(path = "/comments")
+    public Iterable<Comment> getAllComments() {
+        return commentRepository.findAll();
     }
 }

@@ -10,8 +10,8 @@ import static com.example.fypbackend.security.UserPermission.*;
 
 public enum UserRole {
     PATIENT(Sets.newHashSet(PATIENT_READ, PATIENT_WRITE)),
-    ADMIN(Sets.newHashSet(COURSE_READ, COURSE_WRITE, PATIENT_READ, PATIENT_WRITE)),
-    ASISSTINANTTOTHEADMIN(Sets.newHashSet(COURSE_READ, PATIENT_READ));
+    ADMIN(Sets.newHashSet(TEST_READ, TEST_WRITE, PATIENT_READ, PATIENT_WRITE)),
+    MDT(Sets.newHashSet(PATIENT_READ, PATIENT_WRITE));
 
     private final Set<UserPermission> permissions;
 

@@ -35,19 +35,18 @@ public class UserController {
         return "Saved new user";
     }
 
-//    @GetMapping(path = "/{userId}/posts")
-//    public Iterable<Post> getUserPosts(@PathVariable("userId") Integer userId) {
-    @GetMapping(path = "/testes")
-    public String getUserPosts() {
-        System.out.println("UserController.getUserPosts(): getting user#" + 6 + "'s posts");
-        System.out.println(postRepository.findUserPosts(6));
+    @GetMapping(path = "/{userId}/posts")
+    public Iterable<Post> getUserPosts(@PathVariable("userId") Integer userId) {
+//    public String getUserPosts(@PathVariable("userId") Integer userId) {
+        System.out.println("UserController.getUserPosts(): getting user#" + userId + "'s posts");
+        System.out.println(postRepository.findUserPosts(userId));
+        return postRepository.findUserPosts(userId);
 
 //        postRepository.findUserPosts(userId).forEach((x)->{
 ////            x.setCom
 ////            commentRepository.
 //            System.out.println(x.toString());
 //        });
-        return "hello";
 //        return postRepository.findUserPosts(userId);
     }
 
@@ -57,6 +56,21 @@ public class UserController {
 //    public String testingUserId() {
 //            System.out.print("UserController.testing(): getting user " + "username" + "s id");
 //        return persistUserRepository.getUserId("rose");
+//    }
+
+//    @PostMapping
+////    @PreAuthorize("hasAuthority('student:write')")
+//    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+//    public void registerNewStudent(@RequestBody Student student) {
+//        System.out.println(student);
+//        System.out.println("registernewStudent");
+//    }
+//
+//    @DeleteMapping(path = "{studentId}")
+//    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+//    public void deleteStudent (@PathVariable("studentId") Integer studentId) {
+//        System.out.println(studentId);
+//        System.out.println("deleteStudent");
 //    }
 
 }
