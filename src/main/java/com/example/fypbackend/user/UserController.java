@@ -7,7 +7,6 @@ import com.example.fypbackend.comment.CommentRepository;
 import com.example.fypbackend.posts.Post;
 import com.example.fypbackend.posts.PostRepository;
 import com.google.gson.Gson;
-import org.apache.catalina.mapper.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,7 +40,6 @@ public class UserController {
 
     @GetMapping(path = "/{userId}/posts")
     public Iterable<Post> getUserPosts(@PathVariable("userId") Integer userId) {
-//    public String getUserPosts(@PathVariable("userId") Integer userId) {
         System.out.println("UserController.getUserPosts(): getting user#" + userId + "'s posts");
         System.out.println(postRepository.findUserPosts(userId));
         return postRepository.findUserPosts(userId);
@@ -54,8 +52,18 @@ public class UserController {
 //        return postRepository.findUserPosts(userId);
     }
 
+    @GetMapping(path = "/{mdtId}/patients")
+    public List<Patient> getPatients(@PathVariable("mdtId") Integer mdtId) {
+        List<PersistUser> patientsBefore = persistUserRepository.findById(mdtId).get().getPatients();
+        List<Patient> patients = patientsBefore.stream()
+                .map(x -> new Patient(x.getId(), x.getUsername(), x.getPosts().stream().map(post -> post.getId()).collect(Collectors.toList()), x.getProfessionals().stream().map(pro -> pro.getId()).collect(Collectors.toList())))
+                .collect(Collectors.toList());
+        return patients;
+    }
 
-    @PostMapping(path = "/{patientId}/users/{mdtId}") // Map ONLY POST Requests
+    //    @PreAuthorize("hasAuthority('patient:write')")
+    //    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PostMapping(path = "/{patientId}/users/{mdtId}")
     public String linkPatientToMDT(@PathVariable("patientId") Integer patientId, @PathVariable("mdtId") Integer mdtId) {
         PersistUser patient = persistUserRepository.findById(patientId).get();
         PersistUser mdtMember = persistUserRepository.findById(mdtId).get();
@@ -64,48 +72,11 @@ public class UserController {
         return "Added mdtMember to patient";
     }
 
-    @GetMapping(path = "/{mdtId}/patients")
-    public List<Patient> getPatients(@PathVariable("mdtId") Integer mdtId) {
-        List<PersistUser> patientsBefore = persistUserRepository.findById(mdtId).get().getPatients();
-        Mapper mapper = new Mapper();
-
-        List<Patient> patients = (List<Patient>) patientsBefore.stream()
-                .map(x -> new Patient(x.getId(), x.getUsername(), x.getPosts().stream().map(post -> post.getId()).collect(Collectors.toList()), x.getProfessionals().stream().map(pro -> pro.getId()).collect(Collectors.toList()))).collect(Collectors.toList());
-
-        return patients;
-    }
-
     @PostMapping(path = "/{patientId}/posts/{postId}")
-    public String linkPostTopPatient(@PathVariable("patientId") Integer patientId, @PathVariable("postId") Integer postId) {
+    public String linkPostToPatient(@PathVariable("patientId") Integer patientId, @PathVariable("postId") Integer postId) {
         PersistUser user = persistUserRepository.findById(patientId).get();
-//        PersistUser user = new PersistUser("postuser","password","PATIENT",1,1,1,1);
-//        Post post = new Post("joinTitle", "joinDesc", "text", "joinCat", "www.google.com", "www.google.com");
         user.getPosts().add(postRepository.findById(postId).get());
         persistUserRepository.save(user);
-        return "hello";
+        return "Linked post to patient";
     }
-
-
-//    @GetMapping(path = "/test")
-////    public String testingUserId(@PathVariable("userId") String username) {
-//    public String testingUserId() {
-//            System.out.print("UserController.testing(): getting user " + "username" + "s id");
-//        return persistUserRepository.getUserId("rose");
-//    }
-
-//    @PostMapping
-////    @PreAuthorize("hasAuthority('student:write')")
-//    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-//    public void registerNewStudent(@RequestBody Student student) {
-//        System.out.println(student);
-//        System.out.println("registernewStudent");
-//    }
-//
-//    @DeleteMapping(path = "{studentId}")
-//    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-//    public void deleteStudent (@PathVariable("studentId") Integer studentId) {
-//        System.out.println(studentId);
-//        System.out.println("deleteStudent");
-//    }
-
 }
