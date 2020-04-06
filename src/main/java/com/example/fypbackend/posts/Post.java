@@ -20,9 +20,9 @@ public class Post {
     String link_url;
     String image_url;
 
-    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
-    private Set<Comment> comments;
+//    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY,
+//            cascade = CascadeType.ALL)
+//    private Set<Comment> comments;
 
     @ManyToMany(mappedBy = "posts", fetch = FetchType.LAZY)
     private Set<PersistUser> users = new HashSet<>();

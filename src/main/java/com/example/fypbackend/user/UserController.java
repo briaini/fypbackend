@@ -56,7 +56,7 @@ public class UserController {
     public List<Patient> getPatients(@PathVariable("mdtId") Integer mdtId) {
         List<PersistUser> patientsBefore = persistUserRepository.findById(mdtId).get().getPatients();
         List<Patient> patients = patientsBefore.stream()
-                .map(x -> new Patient(x.getId(), x.getUsername(), x.getPosts().stream().map(post -> post.getId()).collect(Collectors.toList()), x.getProfessionals().stream().map(pro -> pro.getId()).collect(Collectors.toList())))
+                .map(x -> new Patient(x.getId(), x.getUsername(), x.getPosts().stream().map(post -> post.getId()).collect(Collectors.toList()), commentRepository.findByUserId(x.getId()), x.getProfessionals().stream().map(pro -> pro.getId()).collect(Collectors.toList())))
                 .collect(Collectors.toList());
         return patients;
     }

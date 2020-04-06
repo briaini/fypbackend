@@ -13,11 +13,12 @@ public class Comment {
     int id;
     int userId;
     String textBody;
+    int postId;
 //    Date date;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "post", nullable = false)
-    private Post post;
+//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+//    @JoinColumn(name = "post", nullable = false)
+//    private Post post;
 
     public Comment() {}
 
@@ -45,12 +46,20 @@ public class Comment {
         this.textBody = textBody;
     }
 
-    public Post getPost() {
-        return post;
+//    public Post getPost() {
+//        return post;
+//    }
+//
+//    public void setPost(Post post) {
+//        this.post = post;
+//    }
+
+    public int getPostId() {
+        return postId;
     }
 
-    public void setPost(Post post) {
-        this.post = post;
+    public void setPostId(int postId) {
+        this.postId = postId;
     }
 
     @Override
@@ -58,6 +67,7 @@ public class Comment {
         return "Comment{" +
                 "id=" + id +
                 ", userId=" + userId +
+                ", postId=" + postId +
                 ", textBody='" + textBody + '\'' +
                 '}';
     }
