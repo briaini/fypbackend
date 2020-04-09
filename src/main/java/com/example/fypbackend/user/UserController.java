@@ -25,6 +25,11 @@ public class UserController {
     @Autowired
     CommentRepository commentRepository;
 
+    @GetMapping(path = "")
+    public Iterable<PersistUser> getAllUsers() {
+        return persistUserRepository.findAll();
+    }
+
     @PostMapping(path = "/userID")
     public Integer getUserId(@RequestBody String username) {
         return persistUserRepository.getUserId(username);
@@ -72,11 +77,11 @@ public class UserController {
 //        return "Added mdtMember to patient";
 //    }
 
-    @PostMapping(path = "/{patientId}/posts/{postId}")
-    public String linkPostToPatient(@PathVariable("patientId") Integer patientId, @PathVariable("postId") Integer postId) {
-        PersistUser user = persistUserRepository.findById(patientId).get();
-        user.getPosts().add(postRepository.findById(postId).get());
-        persistUserRepository.save(user);
-        return "Linked post to patient";
-    }
+//    @PostMapping(path = "/{patientId}/posts/{postId}")
+//    public String linkPostToPatient(@PathVariable("patientId") Integer patientId, @PathVariable("postId") Integer postId) {
+//        PersistUser user = persistUserRepository.findById(patientId).get();
+//        user.getPosts().add(postRepository.findById(postId).get());
+//        persistUserRepository.save(user);
+//        return "Linked post to patient";
+//    }
 }

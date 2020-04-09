@@ -20,16 +20,21 @@ public class MdtController {
     @Autowired
     GroupsRepository groupsRepository;
 
+//    @GetMapping(path = "/{id}/groups")
+//    public String getGroups(@PathVariable("id") Integer id) {
+//        return groupsRepository.getProsMdtIds(id).toString();
+//    }
+
     @GetMapping(path = "/{id}/groups")
-    public String getGroups(@PathVariable("id") Integer id) {
-        return groupsRepository.getProsMdtIds(id).toString();
+    public Iterable<Groups> getAllGroups(@PathVariable("id") Integer id) {
+        return groupsRepository.findAll();
     }
 
     @GetMapping(path = "/{id}/patients")
     public List<Patient> getPatients(@PathVariable("id") Integer id) {
         List<PersistUser> patientsBefore = persistUserRepository.getPatients(id);
         List<Patient> patients = patientsBefore.stream()
-                .map(x -> new Patient(x.getId(), x.getUsername())).collect(Collectors.toList());
+                .map(x -> new Patient(x.getId(), x.getUsername(), groupsRepository.getGroupByUserId(x.getId()))).collect(Collectors.toList());
         return patients;
     }
 }

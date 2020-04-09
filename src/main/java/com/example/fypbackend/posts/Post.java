@@ -2,6 +2,7 @@ package com.example.fypbackend.posts;
 
 import com.example.fypbackend.auth.PersistUser;
 import com.example.fypbackend.comment.Comment;
+import com.example.fypbackend.user.Groups;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -28,7 +29,7 @@ public class Post {
 //    @ManyToMany(mappedBy = "posts", fetch = FetchType.LAZY)
 //    private Set<PersistUser> users = new HashSet<>();
     @ManyToMany(mappedBy = "posts", fetch = FetchType.LAZY)
-    private Set<PersistUser> groups = new HashSet<>();
+    private Set<Groups> groups = new HashSet<>();
 
 
 //    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)

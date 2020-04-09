@@ -4,6 +4,7 @@ import com.example.fypbackend.comment.Comment;
 import com.example.fypbackend.comment.CommentRecipient;
 import com.example.fypbackend.posts.Post;
 import com.example.fypbackend.user.Groups;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -32,6 +33,7 @@ public class PersistUser {
 
 
     //CommentRecipient
+
     @OneToOne(mappedBy = "recipientUser", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     private CommentRecipient commentRecipient;
@@ -41,15 +43,15 @@ public class PersistUser {
 //            cascade = CascadeType.ALL)
 //    private Comment comment;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "users_posts",
-            joinColumns = {
-                    @JoinColumn(name = "user_id", referencedColumnName = "id",
-                            nullable = false, updatable = false)},
-            inverseJoinColumns = {
-                    @JoinColumn(name = "post_id", referencedColumnName = "id",
-                            nullable = false, updatable = false)})
-    private Set<Post> posts = new HashSet<>();
+//    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+//    @JoinTable(name = "users_posts",
+//            joinColumns = {
+//                    @JoinColumn(name = "user_id", referencedColumnName = "id",
+//                            nullable = false, updatable = false)},
+//            inverseJoinColumns = {
+//                    @JoinColumn(name = "post_id", referencedColumnName = "id",
+//                            nullable = false, updatable = false)})
+//    private Set<Post> posts = new HashSet<>();
 
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
@@ -87,13 +89,13 @@ public class PersistUser {
         this.id = id;
     }
 
-    public Set<Post> getPosts() {
-        return posts;
-    }
-
-    public void setPosts(Set<Post> posts) {
-        this.posts = posts;
-    }
+//    public Set<Post> getPosts() {
+//        return posts;
+//    }
+//
+//    public void setPosts(Set<Post> posts) {
+//        this.posts = posts;
+//    }
 
     public Set<Groups> getGroups() {
         return groups;
@@ -198,7 +200,7 @@ public class PersistUser {
                 ", accountNonLocked=" + accountNonLocked +
                 ", credentialsNonExpired=" + credentialsNonExpired +
                 ", enabled=" + enabled +
-                ", posts=" + posts +
+//                ", posts=" + posts +
                 '}';
     }
 }

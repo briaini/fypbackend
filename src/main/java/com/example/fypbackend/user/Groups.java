@@ -4,6 +4,8 @@ import com.example.fypbackend.auth.PersistUser;
 import com.example.fypbackend.comment.Comment;
 import com.example.fypbackend.comment.CommentRecipient;
 import com.example.fypbackend.posts.Post;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -29,9 +31,12 @@ public class Groups {
                             nullable = false, updatable = false)})
     private Set<Post> posts = new HashSet<>();
 
+
+    @JsonIgnore
     @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY)
     private Set<PersistUser> members = new HashSet<>();
 
+    @JsonIgnore
     @OneToOne(mappedBy = "recipientGroup", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     private CommentRecipient recipient;
@@ -63,6 +68,7 @@ public class Groups {
         this.posts = posts;
     }
 
+    @JsonIgnore
     public Set<PersistUser> getMembers() {
         return members;
     }
@@ -79,6 +85,7 @@ public class Groups {
         isMdt = mdt;
     }
 
+    @JsonIgnore
     public CommentRecipient getRecipient() {
         return recipient;
     }
