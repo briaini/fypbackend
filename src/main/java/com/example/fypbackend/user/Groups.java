@@ -9,7 +9,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "groups")
@@ -31,12 +33,9 @@ public class Groups {
                             nullable = false, updatable = false)})
     private Set<Post> posts = new HashSet<>();
 
-
-    @JsonIgnore
     @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY)
     private Set<PersistUser> members = new HashSet<>();
 
-    @JsonIgnore
     @OneToOne(mappedBy = "recipientGroup", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     private CommentRecipient recipient;
@@ -68,9 +67,9 @@ public class Groups {
         this.posts = posts;
     }
 
-    @JsonIgnore
-    public Set<PersistUser> getMembers() {
-        return members;
+//    @JsonIgnore
+    public List<Integer> getMembers() {
+        return members.stream().map(x->x.getId()).collect(Collectors.toList());
     }
 
     public void setMembers(Set<PersistUser> members) {

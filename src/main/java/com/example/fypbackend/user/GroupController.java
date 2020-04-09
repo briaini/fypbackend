@@ -29,6 +29,11 @@ public class GroupController {
     @Autowired
     CommentRecipientRepository commentRecipientRepository;
 
+    @GetMapping
+    public Iterable<Groups> getAllGroups() {
+        return groupsRepository.findAll();
+    }
+
 
     /**
 
