@@ -20,20 +20,21 @@ public class CommentController {
     @Autowired
     private PostRepository postRepository;
 
-    @PostMapping(path = "users/{userId}/posts/{postId}/comments") // Map ONLY POST Requests
-    public @ResponseBody String createComment(@RequestBody String body, @PathVariable("userId") Integer userId, @PathVariable("postId") Integer postId) {
-        System.out.println("test before Gson:\n " + body + "\n");
-//        System.out.println("userId:" + userId);
-//        System.out.println("postId:" + postId);
-//        Post post = postRepository.findById(postId).get();
-        Gson gson = new Gson();
-        Comment comment = gson.fromJson(body, Comment.class);
-        comment.setUserId(userId);
-        comment.setPostId(postId);
-//        comment.setPost(post);
-        commentRepository.save(comment);
-        return "Comment created";
-    }
+    //old way, changing comment structure
+//    @PostMapping(path = "users/{userId}/posts/{postId}/comments") // Map ONLY POST Requests
+//    public @ResponseBody String createComment(@RequestBody String body, @PathVariable("userId") Integer userId, @PathVariable("postId") Integer postId) {
+//        System.out.println("test before Gson:\n " + body + "\n");
+////        System.out.println("userId:" + userId);
+////        System.out.println("postId:" + postId);
+////        Post post = postRepository.findById(postId).get();
+//        Gson gson = new Gson();
+//        Comment comment = gson.fromJson(body, Comment.class);
+//        comment.setUserId(userId);
+//        comment.setPostId(postId);
+////        comment.setPost(post);
+//        commentRepository.save(comment);
+//        return "Comment created";
+//    }
 
     @GetMapping(path = "users/{userId}/comments")
     public List<Comment> getComments(@PathVariable int userId) {

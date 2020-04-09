@@ -1,12 +1,12 @@
 package com.example.fypbackend.auth;
 
 import com.example.fypbackend.comment.Comment;
+import com.example.fypbackend.comment.CommentRecipient;
 import com.example.fypbackend.posts.Post;
 import com.example.fypbackend.user.Groups;
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -29,6 +29,17 @@ public class PersistUser {
     private int credentialsNonExpired;
     @Column(name="enabled")
     private int enabled;
+
+
+    //CommentRecipient
+    @OneToOne(mappedBy = "recipientUser", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private CommentRecipient commentRecipient;
+
+    //old
+//    @OneToOne(mappedBy = "recipient", fetch = FetchType.LAZY,
+//            cascade = CascadeType.ALL)
+//    private Comment comment;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(name = "users_posts",

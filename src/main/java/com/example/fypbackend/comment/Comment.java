@@ -12,19 +12,22 @@ public class Comment {
     @Id
     @GeneratedValue
     int id;
-    int userId;
+    int subjectId;
     String textBody;
     int postId;
     int parentCommentId;
 
-    @OneToMany(mappedBy = "comment", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
-    private Set<CommentRecipient> recipient;
+    //should be many to one as below
+//    @OneToOne(fetch = FetchType.LAZY, optional = false)
+//    @JoinColumn(name = "comment_recipient", nullable = false)
+//    private CommentRecipient recipient;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "comment_recipient", nullable = false)
+    private CommentRecipient commentRecipient;
+
 
 //    Date date;
-
-
-
 
 
 //    @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -41,12 +44,12 @@ public class Comment {
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getSubjectId() {
+        return subjectId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setSubjectId(int subjectId) {
+        this.subjectId = subjectId;
     }
 
     public String getTextBody() {
@@ -57,22 +60,6 @@ public class Comment {
         this.textBody = textBody;
     }
 
-    public int getParentCommentId() {
-        return parentCommentId;
-    }
-
-    public void setParentCommentId(int parentCommentId) {
-        this.parentCommentId = parentCommentId;
-    }
-
-    //    public Post getPost() {
-//        return post;
-//    }
-//
-//    public void setPost(Post post) {
-//        this.post = post;
-//    }
-
     public int getPostId() {
         return postId;
     }
@@ -81,13 +68,19 @@ public class Comment {
         this.postId = postId;
     }
 
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", postId=" + postId +
-                ", textBody='" + textBody + '\'' +
-                '}';
+    public int getParentCommentId() {
+        return parentCommentId;
+    }
+
+    public void setParentCommentId(int parentCommentId) {
+        this.parentCommentId = parentCommentId;
+    }
+
+    public CommentRecipient getCommentRecipient() {
+        return commentRecipient;
+    }
+
+    public void setCommentRecipient(CommentRecipient commentRecipient) {
+        this.commentRecipient = commentRecipient;
     }
 }

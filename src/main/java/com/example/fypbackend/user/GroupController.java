@@ -2,11 +2,17 @@ package com.example.fypbackend.user;
 
 import com.example.fypbackend.auth.PersistUser;
 import com.example.fypbackend.auth.PersistUserRepository;
+import com.example.fypbackend.comment.Comment;
+import com.example.fypbackend.comment.CommentRecipient;
+import com.example.fypbackend.comment.CommentRecipientRepository;
+import com.example.fypbackend.comment.CommentRepository;
 import com.example.fypbackend.posts.Post;
 import com.example.fypbackend.posts.PostRepository;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 @RestController
 @RequestMapping("/groups")
@@ -18,6 +24,11 @@ public class GroupController {
     GroupsRepository groupsRepository;
     @Autowired
     PostRepository postRepository;
+    @Autowired
+    CommentRepository commentRepository;
+    @Autowired
+    CommentRecipientRepository commentRecipientRepository;
+
 
     /**
      {
@@ -56,5 +67,32 @@ public class GroupController {
         group.getPosts().add(post);
         groupsRepository.save(group);
         return "Linked post to group";
+    }
+
+
+    /*
+            localhost:8080/groups/1/comments
+
+     {
+        "textBody":"this is a comment",
+        "postId":1,
+        "subjectId":1
+     }
+
+     */
+    @PostMapping(path = "/{recipientId}/comments")
+    public String commentToGroup(@RequestBody String body, @PathVariable("recipientId") Integer recipientId) {
+        CommentRecipient recipient = commentRecipientRepository.findById(recipientId).get();
+        Set<Comment> commentSet = recipient.getComments();
+
+        Gson gson = new Gson();
+        Comment comment = gson.fromJson(body, Comment.class);
+        comment.setCommentRecipient(recipient);
+
+        commentSet.add(comment);
+        recipient.setComments(commentSet);
+
+        commentRecipientRepository.save(recipient);
+        return "Sent comment";
     }
 }

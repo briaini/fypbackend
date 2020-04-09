@@ -1,6 +1,10 @@
 package com.example.fypbackend.comment;
 
+import com.example.fypbackend.auth.PersistUser;
+import com.example.fypbackend.user.Groups;
+
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "commentrecipient")
@@ -8,13 +12,26 @@ public class CommentRecipient {
     @Id
     @GeneratedValue
     int id;
-    int recipientId;
-    int recipientGroupId;
+//    int recipientId;
+//    int recipientGroupId;
 //    int commentId;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "comment_id", nullable = false)
-    private Comment comment;
+    @OneToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "comment_singlerecipient", nullable = true)
+    private PersistUser recipientUser;
+
+    @OneToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "comment_grouprecipient", nullable = true)
+    private Groups recipientGroup;
+
+    //think should be one to many as below
+//    @OneToOne(mappedBy = "recipient", fetch = FetchType.LAZY,
+//            cascade = CascadeType.ALL)
+//    private Comment comment;
+
+    @OneToMany(mappedBy = "commentRecipient", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private Set<Comment> comments;
 
     public CommentRecipient() {
     }
@@ -27,35 +44,27 @@ public class CommentRecipient {
         this.id = id;
     }
 
-    public int getRecipientId() {
-        return recipientId;
+    public PersistUser getRecipientUser() {
+        return recipientUser;
     }
 
-    public void setRecipientId(int recipientId) {
-        this.recipientId = recipientId;
+    public void setRecipientUser(PersistUser recipientUser) {
+        this.recipientUser = recipientUser;
     }
 
-    public int getRecipientGroupId() {
-        return recipientGroupId;
+    public Groups getRecipientGroup() {
+        return recipientGroup;
     }
 
-    public void setRecipientGroupId(int recipientGroupId) {
-        this.recipientGroupId = recipientGroupId;
+    public void setRecipientGroup(Groups recipientGroup) {
+        this.recipientGroup = recipientGroup;
     }
 
-    public Comment getComment() {
-        return comment;
+    public Set<Comment> getComments() {
+        return comments;
     }
 
-    public void setComment(Comment comment) {
-        this.comment = comment;
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
-
-    //    public int getCommentId() {
-//        return commentId;
-//    }
-//
-//    public void setCommentId(int commentId) {
-//        this.commentId = commentId;
-//    }
 }

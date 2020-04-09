@@ -1,6 +1,8 @@
 package com.example.fypbackend.user;
 
 import com.example.fypbackend.auth.PersistUser;
+import com.example.fypbackend.comment.Comment;
+import com.example.fypbackend.comment.CommentRecipient;
 import com.example.fypbackend.posts.Post;
 
 import javax.persistence.*;
@@ -28,6 +30,9 @@ public class Groups {
     @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY)
     private Set<PersistUser> members = new HashSet<>();
 
+    @OneToOne(mappedBy = "recipientGroup", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private CommentRecipient recipient;
 
     public Groups() {
     }
