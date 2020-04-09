@@ -16,7 +16,6 @@ public class CommentRecipient {
     @JoinColumn(name = "comment_id", nullable = false)
     private Comment comment;
 
-
     public CommentRecipient() {
     }
 

@@ -25,9 +25,9 @@ public class Groups {
                             nullable = false, updatable = false)})
     private Set<Post> posts = new HashSet<>();
 
-
     @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY)
     private Set<PersistUser> members = new HashSet<>();
+
 
     public Groups() {
     }
