@@ -16,6 +16,8 @@ public class Groups {
     @GeneratedValue
     Integer id;
     String name;
+    Boolean isMdt;
+
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(name = "groups_posts",
@@ -67,6 +69,22 @@ public class Groups {
 
     public void setMembers(Set<PersistUser> members) {
         this.members = members;
+    }
+
+    public Boolean getMdt() {
+        return isMdt;
+    }
+
+    public void setMdt(Boolean mdt) {
+        isMdt = mdt;
+    }
+
+    public CommentRecipient getRecipient() {
+        return recipient;
+    }
+
+    public void setRecipient(CommentRecipient recipient) {
+        this.recipient = recipient;
     }
 
     @Override
