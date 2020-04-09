@@ -8,14 +8,14 @@ import java.util.List;
 public class Patient {
     final int id;
     final String name;
-    final List<Integer> posts;
+//    final List<Integer> posts;
     final List<Comment> comments;
     final List<Integer> mdt;
 
     public Patient(int id, String name, List<Integer> posts, List<Comment> comments, List<Integer> mdt) {
         this.id = id;
         this.name = name;
-        this.posts = posts;
+//        this.posts = posts;
         this.comments = comments;
         this.mdt = mdt;
     }
@@ -28,9 +28,9 @@ public class Patient {
         return name;
     }
 
-    public List<Integer> getPosts() {
-        return posts;
-    }
+//    public List<Integer> getPosts() {
+//        return posts;
+//    }
 
     public List<Integer> getMdt() {
         return mdt;

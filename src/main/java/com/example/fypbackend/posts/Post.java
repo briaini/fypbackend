@@ -24,9 +24,11 @@ public class Post {
 //            cascade = CascadeType.ALL)
 //    private Set<Comment> comments;
 
+    // changed users owning posts to groups owning posts
+//    @ManyToMany(mappedBy = "posts", fetch = FetchType.LAZY)
+//    private Set<PersistUser> users = new HashSet<>();
     @ManyToMany(mappedBy = "posts", fetch = FetchType.LAZY)
-    private Set<PersistUser> users = new HashSet<>();
-
+    private Set<PersistUser> groups = new HashSet<>();
 
 
 //    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)

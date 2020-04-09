@@ -52,25 +52,25 @@ public class UserController {
 //        return postRepository.findUserPosts(userId);
     }
 
-    @GetMapping(path = "/{mdtId}/patients")
-    public List<Patient> getPatients(@PathVariable("mdtId") Integer mdtId) {
-        List<PersistUser> patientsBefore = persistUserRepository.findById(mdtId).get().getPatients();
-        List<Patient> patients = patientsBefore.stream()
-                .map(x -> new Patient(x.getId(), x.getUsername(), x.getPosts().stream().map(post -> post.getId()).collect(Collectors.toList()), commentRepository.findByUserId(x.getId()), x.getProfessionals().stream().map(pro -> pro.getId()).collect(Collectors.toList())))
-                .collect(Collectors.toList());
-        return patients;
-    }
-
-    //    @PreAuthorize("hasAuthority('patient:write')")
-    //    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @PostMapping(path = "/{patientId}/users/{mdtId}")
-    public String linkPatientToMDT(@PathVariable("patientId") Integer patientId, @PathVariable("mdtId") Integer mdtId) {
-        PersistUser patient = persistUserRepository.findById(patientId).get();
-        PersistUser mdtMember = persistUserRepository.findById(mdtId).get();
-        patient.getProfessionals().add(mdtMember);
-        persistUserRepository.save(patient);
-        return "Added mdtMember to patient";
-    }
+//    @GetMapping(path = "/{mdtId}/patients")
+//    public List<Patient> getPatients(@PathVariable("mdtId") Integer mdtId) {
+//        List<PersistUser> patientsBefore = persistUserRepository.findById(mdtId).get().getPatients();
+//        List<Patient> patients = patientsBefore.stream()
+//                .map(x -> new Patient(x.getId(), x.getUsername(), x.getPosts().stream().map(post -> post.getId()).collect(Collectors.toList()), commentRepository.findByUserId(x.getId()), x.getProfessionals().stream().map(pro -> pro.getId()).collect(Collectors.toList())))
+//                .collect(Collectors.toList());
+//        return patients;
+//    }
+//
+//    //    @PreAuthorize("hasAuthority('patient:write')")
+//    //    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+//    @PostMapping(path = "/{patientId}/users/{mdtId}")
+//    public String linkPatientToMDT(@PathVariable("patientId") Integer patientId, @PathVariable("mdtId") Integer mdtId) {
+//        PersistUser patient = persistUserRepository.findById(patientId).get();
+//        PersistUser mdtMember = persistUserRepository.findById(mdtId).get();
+//        patient.getProfessionals().add(mdtMember);
+//        persistUserRepository.save(patient);
+//        return "Added mdtMember to patient";
+//    }
 
     @PostMapping(path = "/{patientId}/posts/{postId}")
     public String linkPostToPatient(@PathVariable("patientId") Integer patientId, @PathVariable("postId") Integer postId) {

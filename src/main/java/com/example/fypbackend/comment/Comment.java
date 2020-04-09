@@ -3,6 +3,7 @@ package com.example.fypbackend.comment;
 import com.example.fypbackend.posts.Post;
 
 import javax.persistence.*;
+import java.util.Set;
 
 
 @Entity
@@ -14,7 +15,17 @@ public class Comment {
     int userId;
     String textBody;
     int postId;
+    int parentCommentId;
+
+    @OneToMany(mappedBy = "comment", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private Set<CommentRecipient> recipient;
+
 //    Date date;
+
+
+
+
 
 //    @ManyToOne(fetch = FetchType.LAZY, optional = false)
 //    @JoinColumn(name = "post", nullable = false)
@@ -46,7 +57,15 @@ public class Comment {
         this.textBody = textBody;
     }
 
-//    public Post getPost() {
+    public int getParentCommentId() {
+        return parentCommentId;
+    }
+
+    public void setParentCommentId(int parentCommentId) {
+        this.parentCommentId = parentCommentId;
+    }
+
+    //    public Post getPost() {
 //        return post;
 //    }
 //

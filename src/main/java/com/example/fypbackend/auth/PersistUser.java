@@ -2,6 +2,7 @@ package com.example.fypbackend.auth;
 
 import com.example.fypbackend.comment.Comment;
 import com.example.fypbackend.posts.Post;
+import com.example.fypbackend.user.Groups;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -40,20 +41,31 @@ public class PersistUser {
     private Set<Post> posts = new HashSet<>();
 
 
-    //MDT relationship
-    @ManyToMany
-    @JoinTable(name="mdt_patient",
-            joinColumns=@JoinColumn(name="professionalId"),
-            inverseJoinColumns=@JoinColumn(name="patientId")
-    )
-    private List<PersistUser> professionals;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "users_groups",
+            joinColumns = {
+                    @JoinColumn(name = "user_id", referencedColumnName = "id",
+                            nullable = false, updatable = true)},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "groups_id", referencedColumnName = "id",
+                            nullable = false, updatable = true)})
+    private Set<Groups> groups = new HashSet<>();
 
-    @ManyToMany
-    @JoinTable(name="mdt_patient",
-            joinColumns=@JoinColumn(name="patientId"),
-            inverseJoinColumns=@JoinColumn(name="professionalId")
-    )
-    private List<PersistUser> patients;
+
+    //MDT relationship
+//    @ManyToMany
+//    @JoinTable(name="mdt_patient",
+//            joinColumns=@JoinColumn(name="professionalId"),
+//            inverseJoinColumns=@JoinColumn(name="patientId")
+//    )
+//    private List<PersistUser> professionals;
+//
+//    @ManyToMany
+//        @JoinTable(name="mdt_patient",
+//            joinColumns=@JoinColumn(name="patientId"),
+//            inverseJoinColumns=@JoinColumn(name="professionalId")
+//    )
+//    private List<PersistUser> patients;
 
 
     public Integer getId() {
@@ -72,21 +84,29 @@ public class PersistUser {
         this.posts = posts;
     }
 
-    public List<PersistUser> getProfessionals() {
-        return professionals;
+    public Set<Groups> getGroups() {
+        return groups;
     }
 
-    public void setProfessionals(List<PersistUser> professionals) {
-        this.professionals = professionals;
+    public void setGroups(Set<Groups> groups) {
+        this.groups = groups;
     }
 
-    public List<PersistUser> getPatients() {
-        return patients;
-    }
-
-    public void setPatients(List<PersistUser> patients) {
-        this.patients = patients;
-    }
+    //    public List<PersistUser> getProfessionals() {
+//        return professionals;
+//    }
+//
+//    public void setProfessionals(List<PersistUser> professionals) {
+//        this.professionals = professionals;
+//    }
+//
+//    public List<PersistUser> getPatients() {
+//        return patients;
+//    }
+//
+//    public void setPatients(List<PersistUser> patients) {
+//        this.patients = patients;
+//    }
 
     public PersistUser() {}
 
