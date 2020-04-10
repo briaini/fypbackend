@@ -1,6 +1,5 @@
 package com.example.fypbackend.user;
 
-import com.example.fypbackend.auth.Patient;
 import com.example.fypbackend.auth.PersistUser;
 import com.example.fypbackend.auth.PersistUserRepository;
 import com.example.fypbackend.comment.CommentRepository;
@@ -9,9 +8,6 @@ import com.example.fypbackend.posts.PostRepository;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 @RestController
@@ -24,6 +20,8 @@ public class UserController {
     PostRepository postRepository;
     @Autowired
     CommentRepository commentRepository;
+    @Autowired
+    GroupsRepository groupsRepository;
 
     @GetMapping(path = "")
     public Iterable<PersistUser> getAllUsers() {
@@ -48,14 +46,21 @@ public class UserController {
         System.out.println("UserController.getUserPosts(): getting user#" + userId + "'s posts");
         System.out.println(postRepository.findUserPosts(userId));
         return postRepository.findUserPosts(userId);
-
-//        postRepository.findUserPosts(userId).forEach((x)->{
-////            x.setCom
-////            commentRepository.
-//            System.out.println(x.toString());
-//        });
-//        return postRepository.findUserPosts(userId);
     }
+
+    @PostMapping(path = "/{patientId}/posts/{postId}")
+    public String linkPostToPatient(@PathVariable("patientId") Integer patientId, @PathVariable("postId") Integer postId) {
+        Groups group = groupsRepository.findById(groupsRepository.getGroupByUserId(patientId)).get();
+        Post post = postRepository.findById(postId).get();
+        group.getPosts().add(post);
+        groupsRepository.save(group);
+        return "Linked post to patient";
+    }
+
+
+
+
+    // old methods below
 
 //    @GetMapping(path = "/{mdtId}/patients")
 //    public List<Patient> getPatients(@PathVariable("mdtId") Integer mdtId) {

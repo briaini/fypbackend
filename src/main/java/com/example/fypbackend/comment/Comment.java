@@ -1,6 +1,7 @@
 package com.example.fypbackend.comment;
 
 import com.example.fypbackend.posts.Post;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -22,6 +23,7 @@ public class Comment {
 //    @JoinColumn(name = "comment_recipient", nullable = false)
 //    private CommentRecipient recipient;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "comment_recipient", nullable = false)
     private CommentRecipient commentRecipient;

@@ -85,7 +85,7 @@ public class Groups {
         isMdt = mdt;
     }
 
-    @JsonIgnore
+//    @JsonIgnore
     public CommentRecipient getRecipient() {
         return recipient;
     }
