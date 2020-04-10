@@ -48,6 +48,11 @@ public class UserController {
         return postRepository.findUserPosts(userId);
     }
 
+    @GetMapping(path = "/{id}/groups")
+    public Groups getGroup(@PathVariable("id") Integer id) {
+        return groupsRepository.findById(groupsRepository.getGroupByUserId(id)).get();
+    }
+
     @PostMapping(path = "/{patientId}/posts/{postId}")
     public String linkPostToPatient(@PathVariable("patientId") Integer patientId, @PathVariable("postId") Integer postId) {
         Groups group = groupsRepository.findById(groupsRepository.getGroupByUserId(patientId)).get();
