@@ -44,21 +44,21 @@ public class CommentRecipient {
         this.id = id;
     }
 
-    public PersistUser getRecipientUser() {
-        return recipientUser;
-    }
-
-    public void setRecipientUser(PersistUser recipientUser) {
-        this.recipientUser = recipientUser;
-    }
-
-    public Groups getRecipientGroup() {
-        return recipientGroup;
-    }
-
-    public void setRecipientGroup(Groups recipientGroup) {
-        this.recipientGroup = recipientGroup;
-    }
+//    public PersistUser getRecipientUser() {
+//        return recipientUser;
+//    }
+//
+//    public void setRecipientUser(PersistUser recipientUser) {
+//        this.recipientUser = recipientUser;
+//    }
+//
+//    public Groups getRecipientGroup() {
+//        return recipientGroup;
+//    }
+//
+//    public void setRecipientGroup(Groups recipientGroup) {
+//        this.recipientGroup = recipientGroup;
+//    }
 
     public Set<Comment> getComments() {
         return comments;

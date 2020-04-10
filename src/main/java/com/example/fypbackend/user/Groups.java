@@ -68,8 +68,9 @@ public class Groups {
     }
 
 //    @JsonIgnore
-    public List<Integer> getMembers() {
-        return members.stream().map(x->x.getId()).collect(Collectors.toList());
+    public List<UserDAO> getMembers() {
+//        return members;
+        return members.stream().map(x-> new UserDAO(x.getId(), x.getUsername(), x.getRole())).collect(Collectors.toList());
     }
 
     public void setMembers(Set<PersistUser> members) {
