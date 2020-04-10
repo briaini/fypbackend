@@ -89,11 +89,15 @@ public class GroupController {
      }
 
      */
-    @PostMapping(path = "/{recipientId}/comments")
-    public String commentToGroup(@RequestBody String body, @PathVariable("recipientId") Integer recipientId) {
-        CommentRecipient recipient = commentRecipientRepository.findById(recipientId).get();
-        Set<Comment> commentSet = recipient.getComments();
+    @PostMapping(path = "/{groupID}/comments")
+    public String commentToGroup(@RequestBody String body, @PathVariable("groupID") Integer groupID) {
+//        System.out.println(commentRecipientRepository.findAll().toString());
 
+        CommentRecipient recipient = commentRecipientRepository.getByGroupId(groupID);
+
+//        CommentRecipient recipient = commentRecipientRepository.findById(recipientId).get();
+        Set<Comment> commentSet = recipient.getComments();
+//
         Gson gson = new Gson();
         Comment comment = gson.fromJson(body, Comment.class);
         comment.setCommentRecipient(recipient);
