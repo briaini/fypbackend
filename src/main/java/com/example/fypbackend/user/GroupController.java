@@ -36,14 +36,14 @@ public class GroupController {
 
 
     /**
-     localhost:8080/groups/
+     localhost:8080/groups
 
      {
      "name":"group2",
      "isMdt":true       ....optional * need to set isMdt to true for patient group
      }
     **/
-    @PostMapping(path = "/")
+    @PostMapping(path = "")
     public @ResponseBody
     String createGroup(@RequestBody String body) {
         Gson gson = new Gson();
