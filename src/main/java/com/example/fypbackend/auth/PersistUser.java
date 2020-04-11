@@ -31,28 +31,11 @@ public class PersistUser {
     @Column(name="enabled")
     private int enabled;
 
-
     //CommentRecipient
 
     @OneToOne(mappedBy = "recipientUser", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     private CommentRecipient commentRecipient;
-
-    //old
-//    @OneToOne(mappedBy = "recipient", fetch = FetchType.LAZY,
-//            cascade = CascadeType.ALL)
-//    private Comment comment;
-
-//    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-//    @JoinTable(name = "users_posts",
-//            joinColumns = {
-//                    @JoinColumn(name = "user_id", referencedColumnName = "id",
-//                            nullable = false, updatable = false)},
-//            inverseJoinColumns = {
-//                    @JoinColumn(name = "post_id", referencedColumnName = "id",
-//                            nullable = false, updatable = false)})
-//    private Set<Post> posts = new HashSet<>();
-
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(name = "users_groups",
@@ -63,63 +46,6 @@ public class PersistUser {
                     @JoinColumn(name = "groups_id", referencedColumnName = "id",
                             nullable = false, updatable = true)})
     private Set<Groups> groups = new HashSet<>();
-
-
-    //MDT relationship
-//    @ManyToMany
-//    @JoinTable(name="mdt_patient",
-//            joinColumns=@JoinColumn(name="professionalId"),
-//            inverseJoinColumns=@JoinColumn(name="patientId")
-//    )
-//    private List<PersistUser> professionals;
-//
-//    @ManyToMany
-//        @JoinTable(name="mdt_patient",
-//            joinColumns=@JoinColumn(name="patientId"),
-//            inverseJoinColumns=@JoinColumn(name="professionalId")
-//    )
-//    private List<PersistUser> patients;
-
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-//    public Set<Post> getPosts() {
-//        return posts;
-//    }
-//
-//    public void setPosts(Set<Post> posts) {
-//        this.posts = posts;
-//    }
-
-    public Set<Groups> getGroups() {
-        return groups;
-    }
-
-    public void setGroups(Set<Groups> groups) {
-        this.groups = groups;
-    }
-
-    //    public List<PersistUser> getProfessionals() {
-//        return professionals;
-//    }
-//
-//    public void setProfessionals(List<PersistUser> professionals) {
-//        this.professionals = professionals;
-//    }
-//
-//    public List<PersistUser> getPatients() {
-//        return patients;
-//    }
-//
-//    public void setPatients(List<PersistUser> patients) {
-//        this.patients = patients;
-//    }
 
     public PersistUser() {}
 
@@ -132,6 +58,23 @@ public class PersistUser {
         this.credentialsNonExpired = credentialsNonExpired;
         this.enabled = enabled;
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Set<Groups> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(Set<Groups> groups) {
+        this.groups = groups;
+    }
+
 
     public String getUsername() {
         return username;

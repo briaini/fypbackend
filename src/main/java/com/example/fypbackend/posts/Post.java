@@ -110,62 +110,6 @@ public class Post {
         this.image_url = image_url;
     }
 
-    //    public Integer getId() {
-//        return id;
-//    }
-//
-//    public void setId(Integer id) {
-//        this.id = id;
-//    }
-//
-//    public String getMedia() {
-//        return media;
-//    }
-//
-//    public void setMedia(String media) {
-//        this.media = media;
-//    }
-//
-//    public String getCategory() {
-//        return category;
-//    }
-//
-//    public void setCategory(String category) {
-//        this.category = category;
-//    }
-//
-//    public String getTitle() {
-//        return title;
-//    }
-//
-//    public void setTitle(String title) {
-//        this.title = title;
-//    }
-//
-//    public String getDescription() {
-//        return description;
-//    }
-//
-//    public void setDescription(String description) {
-//        this.description = description;
-//    }
-//
-//    public String getLinkUrl() {
-//        return link_url;
-//    }
-//
-//    public void setLinkUrl(String linkUrl) {
-//        this.link_url = linkUrl;
-//    }
-//
-//    public String getImageUrl() {
-//        return image_url;
-//    }
-//
-//    public void setImageUrl(String imageUrl) {
-//        this.image_url = imageUrl;
-//    }
-
     @Override
     public String toString() {
         return "Post{" +

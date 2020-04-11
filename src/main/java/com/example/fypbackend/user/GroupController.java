@@ -36,12 +36,11 @@ public class GroupController {
 
 
     /**
-
-     *need to set isMdt to true for patient group
      localhost:8080/groups/
 
      {
-     "name":"group1"
+     "name":"group2",
+     "isMdt":true       ....optional * need to set isMdt to true for patient group
      }
     **/
     @PostMapping(path = "/")

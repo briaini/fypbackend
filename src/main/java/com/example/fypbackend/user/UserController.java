@@ -33,6 +33,17 @@ public class UserController {
         return persistUserRepository.getUserId(username);
     }
 
+/*
+    {
+        "username": "patient2@gmail.com",
+            "password": "Password1",
+            "role": "PATIENT",
+            "accountNonExpired": 1,
+            "accountNonLocked": 1,
+            "credentialsNonExpired": 1,
+            "enabled": 1
+    }
+*/
     @PostMapping(path = "")
     public @ResponseBody String createUser(@RequestBody String body) {
         Gson gson = new Gson();

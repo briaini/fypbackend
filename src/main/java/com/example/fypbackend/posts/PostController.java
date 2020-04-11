@@ -28,7 +28,16 @@ public class PostController {
           Gson gson = new Gson();
           Post post = gson.fromJson(body, Post.class);
         postRepository.save(post);
-        return "TODO";
+        return "Added Post";
+    }
+
+    @PutMapping(path = "")
+    public @ResponseBody String updatePost(@RequestBody String body) {
+        System.out.println("test before Gson:\n " + body + "\n");
+        Gson gson = new Gson();
+        Post post = gson.fromJson(body, Post.class);
+        postRepository.save(post);
+        return "Added Post";
     }
 
     @GetMapping(path = "")
