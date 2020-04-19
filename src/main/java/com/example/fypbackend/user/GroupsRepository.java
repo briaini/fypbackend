@@ -23,7 +23,7 @@ public interface GroupsRepository extends CrudRepository<Groups, Integer> {
 
     @Query(value = "SELECT groups_id FROM `users_groups` INNER JOIN `groups` ON groups.id = users_groups.groups_id WHERE user_id = :id AND is_mdt = true",
             nativeQuery = true)
-    Integer getGroupByUserId(@Param("id") Integer id);
+    Integer getGroupIdByUserId(@Param("id") Integer id);
 
 
     @Query(value = "SELECT groups_id FROM `users_groups` INNER JOIN `groups` ON groups.id = users_groups.groups_id WHERE user_id = :id AND is_mdt = true",

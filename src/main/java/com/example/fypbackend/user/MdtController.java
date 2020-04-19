@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,7 +33,7 @@ public class MdtController {
     @GetMapping(path = "/{id}/mygroups")
     public Iterable<Groups> getGroupsByUserId(@PathVariable("id") Integer id) {
 
-        return groupsRepository.findAll();
+        return groupsRepository.findByUserId(id);
 
 //        List<Groups> gList = new ArrayList<>();
 //        groupsRepository.findAll().forEach((group) -> {
@@ -50,7 +49,7 @@ public class MdtController {
     public List<Patient> getPatients(@PathVariable("id") Integer id) {
         List<PersistUser> patientsBefore = persistUserRepository.getPatients(id);
         List<Patient> patients = patientsBefore.stream()
-                .map(x -> new Patient(x.getId(), x.getUsername(), groupsRepository.getGroupByUserId(x.getId()))).collect(Collectors.toList());
+                .map(x -> new Patient(x.getId(), x.getUsername(), groupsRepository.getGroupIdByUserId(x.getId()))).collect(Collectors.toList());
         return patients;
     }
 }

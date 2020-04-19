@@ -61,12 +61,12 @@ public class UserController {
 
     @GetMapping(path = "/{id}/groups")
     public Groups getGroup(@PathVariable("id") Integer id) {
-        return groupsRepository.findById(groupsRepository.getGroupByUserId(id)).get();
+        return groupsRepository.findById(groupsRepository.getGroupIdByUserId(id)).get();
     }
 
     @PostMapping(path = "/{patientId}/posts/{postId}")
     public String linkPostToPatient(@PathVariable("patientId") Integer patientId, @PathVariable("postId") Integer postId) {
-        Groups group = groupsRepository.findById(groupsRepository.getGroupByUserId(patientId)).get();
+        Groups group = groupsRepository.findById(groupsRepository.getGroupIdByUserId(patientId)).get();
         Post post = postRepository.findById(postId).get();
         group.getPosts().add(post);
         groupsRepository.save(group);
