@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,6 +29,21 @@ public class MdtController {
     @GetMapping(path = "/{id}/groups")
     public Iterable<Groups> getAllGroups(@PathVariable("id") Integer id) {
         return groupsRepository.findAll();
+    }
+
+    @GetMapping(path = "/{id}/mygroups")
+    public Iterable<Groups> getGroupsByUserId(@PathVariable("id") Integer id) {
+
+        return groupsRepository.findAll();
+
+//        List<Groups> gList = new ArrayList<>();
+//        groupsRepository.findAll().forEach((group) -> {
+//            group.getMembers().forEach((member)->{if(member.getId()== id){
+//                gList.add(group);
+//            }
+//            });
+//        });
+//        return gList;
     }
 
     @GetMapping(path = "/{id}/patients")
