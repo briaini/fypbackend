@@ -32,17 +32,7 @@ public class MdtController {
 
     @GetMapping(path = "/{id}/mygroups")
     public Iterable<Groups> getGroupsByUserId(@PathVariable("id") Integer id) {
-
         return groupsRepository.findByUserId(id);
-
-//        List<Groups> gList = new ArrayList<>();
-//        groupsRepository.findAll().forEach((group) -> {
-//            group.getMembers().forEach((member)->{if(member.getId()== id){
-//                gList.add(group);
-//            }
-//            });
-//        });
-//        return gList;
     }
 
     @GetMapping(path = "/{id}/patients")
