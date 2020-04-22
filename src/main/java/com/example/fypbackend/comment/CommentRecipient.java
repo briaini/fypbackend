@@ -56,9 +56,9 @@ public class CommentRecipient {
 //        return recipientGroup;
 //    }
 //
-//    public void setRecipientGroup(Groups recipientGroup) {
-//        this.recipientGroup = recipientGroup;
-//    }
+    public void setRecipientGroup(Groups recipientGroup) {
+        this.recipientGroup = recipientGroup;
+    }
 
     public Set<Comment> getComments() {
         return comments;

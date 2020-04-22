@@ -48,7 +48,13 @@ public class GroupController {
     String createGroup(@RequestBody String body) {
         Gson gson = new Gson();
         Groups group = gson.fromJson(body, Groups.class);
-        groupsRepository.save(group);
+        Groups savedGroup = groupsRepository.save(group);
+
+        System.out.println("tset create group");
+        System.out.println(savedGroup.getId());
+        CommentRecipient commentRecipient = new CommentRecipient();
+        commentRecipient.setRecipientGroup(savedGroup);
+        commentRecipientRepository.save(commentRecipient);
         return "Saved new group";
     }
 
