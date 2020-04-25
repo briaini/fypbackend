@@ -113,16 +113,24 @@ public class GroupController {
         return "Sent comment";
     }
 
-    /**
-     localhost:8080/groups/58/posts/0
-     **/
     @PostMapping(path = "/{groupId}/hiddenposts/{postId}")
-    public String hidePostFromGroup(@PathVariable("groupId") Integer groupId, @PathVariable("postId") Integer postId) {
+    public String postNotVisibleToGroup(@PathVariable("groupId") Integer groupId, @PathVariable("postId") Integer postId) {
         Groups group = groupsRepository.findById(groupId).get();
         Post post = postRepository.findById(postId).get();
         System.out.println(""+ group.id + " " + postId);
         group.getPosts().remove(post);
         group.getHiddenposts().add(post);
+        groupsRepository.save(group);
+        return "Linked post to group";
+    }
+
+    @PostMapping(path = "/{groupId}/visibleposts/{postId}")
+    public String postVisibleToGroup(@PathVariable("groupId") Integer groupId, @PathVariable("postId") Integer postId) {
+        Groups group = groupsRepository.findById(groupId).get();
+        Post post = postRepository.findById(postId).get();
+        System.out.println(""+ group.id + " " + postId);
+        group.getPosts().add(post);
+        group.getHiddenposts().remove(post);
         groupsRepository.save(group);
         return "Linked post to group";
     }
