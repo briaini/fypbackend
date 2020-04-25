@@ -52,6 +52,20 @@ public class UserController {
         return "Saved new user";
     }
 
+    /**
+     localhost:8080/groups/58/posts/0
+     **/
+    @PostMapping(path = "/{userId}/hiddenposts/{postId}")
+    public String hidePostFromGroup(@PathVariable("userId") Integer userId, @PathVariable("postId") Integer postId) {
+        Groups group = groupsRepository.findMdtByPatientId(userId);
+        Post post = postRepository.findById(postId).get();
+        System.out.println(""+ group.id + " " + postId);
+        group.getPosts().remove(post);
+        group.getHiddenposts().add(post);
+        groupsRepository.save(group);
+        return "Linked post to group";
+    }
+
     @GetMapping(path = "/{userId}/posts")
     public Iterable<Post> getUserPosts(@PathVariable("userId") Integer userId) {
         System.out.println("UserController.getUserPosts(): getting user#" + userId + "'s posts");

@@ -83,7 +83,6 @@ public class GroupController {
         return "Linked post to group";
     }
 
-
     /*
             localhost:8080/groups/1/comments
 
@@ -112,5 +111,19 @@ public class GroupController {
 
         commentRecipientRepository.save(recipient);
         return "Sent comment";
+    }
+
+    /**
+     localhost:8080/groups/58/posts/0
+     **/
+    @PostMapping(path = "/{groupId}/hiddenposts/{postId}")
+    public String hidePostFromGroup(@PathVariable("groupId") Integer groupId, @PathVariable("postId") Integer postId) {
+        Groups group = groupsRepository.findById(groupId).get();
+        Post post = postRepository.findById(postId).get();
+        System.out.println(""+ group.id + " " + postId);
+        group.getPosts().remove(post);
+        group.getHiddenposts().add(post);
+        groupsRepository.save(group);
+        return "Linked post to group";
     }
 }

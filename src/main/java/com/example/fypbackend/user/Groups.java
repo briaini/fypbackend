@@ -33,6 +33,16 @@ public class Groups {
                             nullable = false, updatable = false)})
     private Set<Post> posts = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "groups_hiddenposts",
+            joinColumns = {
+                    @JoinColumn(name = "groups_id", referencedColumnName = "id",
+                            nullable = false, updatable = false)},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "post_id", referencedColumnName = "id",
+                            nullable = false, updatable = false)})
+    private Set<Post> hiddenposts = new HashSet<>();
+
     @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY)
     private Set<PersistUser> members = new HashSet<>();
 
@@ -67,7 +77,15 @@ public class Groups {
         this.posts = posts;
     }
 
-//    @JsonIgnore
+    public Set<Post> getHiddenposts() {
+        return hiddenposts;
+    }
+
+    public void setHiddenposts(Set<Post> hiddenposts) {
+        this.hiddenposts = hiddenposts;
+    }
+
+    //    @JsonIgnore
     public List<UserDAO> getMembers() {
 //        return members;
         return members.stream().map(x-> new UserDAO(x.getId(), x.getUsername(), x.getRole())).collect(Collectors.toList());
