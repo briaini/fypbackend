@@ -1,5 +1,6 @@
 package com.example.fypbackend.user;
 
+import com.example.fypbackend.auth.Patient;
 import com.example.fypbackend.auth.PersistUser;
 import com.example.fypbackend.auth.PersistUserRepository;
 import com.example.fypbackend.comment.CommentRepository;
@@ -8,6 +9,9 @@ import com.example.fypbackend.posts.PostRepository;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -86,6 +90,31 @@ public class UserController {
         groupsRepository.save(group);
         return "Linked post to patient";
     }
+
+    @GetMapping(path = "/patients")
+    public List<Patient> getAllPatients() {
+        List<PersistUser> allAssignedPatientsBefore = persistUserRepository.getAllAssignedPatients();
+        List<PersistUser> allUnassignedPatientsBefore = persistUserRepository.getAllUnassignedPatients();
+        System.out.println("un" +allUnassignedPatientsBefore);
+        System.out.println("A" +allAssignedPatientsBefore);
+
+        List<Patient> patients = allAssignedPatientsBefore.stream()
+                .map(x -> new Patient(x.getId(), x.getUsername(), groupsRepository.getGroupIdByUserId(x.getId()))).collect(Collectors.toList());
+        patients.addAll(allUnassignedPatientsBefore.stream()
+                .map(x -> new Patient(x.getId(), x.getUsername(), null)).collect(Collectors.toList()));
+        return patients;
+    }
+
+    @GetMapping(path = "/unassignedPatients")
+    public List<Patient> getUnassignedPatients() {
+        List<PersistUser> allUnassignedPatientsBefore = persistUserRepository.getAllUnassignedPatients();
+        System.out.println("un" +allUnassignedPatientsBefore);
+
+        List<Patient> patients = allUnassignedPatientsBefore.stream()
+                .map(x -> new Patient(x.getId(), x.getUsername(), null)).collect(Collectors.toList());
+        return patients;
+    }
+
 
 
 

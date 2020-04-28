@@ -8,12 +8,12 @@ import java.util.List;
 public class Patient {
     final int id;
     final String name;
-    final int mdtId;
+    final Integer mdtId;
 //    final List<Integer> posts;
 //    final List<Comment> comments;
 //    final List<Integer> mdt;
 
-    public Patient(int id, String name, int mdtId) {
+    public Patient(int id, String name, Integer mdtId) {
 //                   List<Integer> posts, List<Comment> comments, List<Integer> mdt) {
         this.id = id;
         this.name = name;
@@ -31,7 +31,7 @@ public class Patient {
         return name;
     }
 
-    public int getMdtId() {
+    public Integer getMdtId() {
         return mdtId;
     }
 
