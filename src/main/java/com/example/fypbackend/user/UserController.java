@@ -105,15 +105,15 @@ public class UserController {
         return patients;
     }
 
-    @GetMapping(path = "/unassignedPatients")
-    public List<Patient> getUnassignedPatients() {
-        List<PersistUser> allUnassignedPatientsBefore = persistUserRepository.getAllUnassignedPatients();
-        System.out.println("un" +allUnassignedPatientsBefore);
-
-        List<Patient> patients = allUnassignedPatientsBefore.stream()
-                .map(x -> new Patient(x.getId(), x.getUsername(), null)).collect(Collectors.toList());
-        return patients;
-    }
+//    @GetMapping(path = "/unassignedPatients")
+//    public List<Patient> getUnassignedPatients() {
+//        List<PersistUser> allUnassignedPatientsBefore = persistUserRepository.getAllUnassignedPatients();
+//        System.out.println("un" +allUnassignedPatientsBefore);
+//
+//        List<Patient> patients = allUnassignedPatientsBefore.stream()
+//                .map(x -> new Patient(x.getId(), x.getUsername(), null)).collect(Collectors.toList());
+//        return patients;
+//    }
 
 
 
