@@ -32,7 +32,7 @@ public class MdtController {
 
     @GetMapping(path = "/{id}/mygroups")
     public Iterable<Groups> getGroupsByUserId(@PathVariable("id") Integer id) {
-        return groupsRepository.findByUserId(id);
+        return groupsRepository.findGroupsByUserId(id);
     }
 
     @GetMapping(path = "/{id}/patients")

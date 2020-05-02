@@ -14,9 +14,14 @@ public interface GroupsRepository extends CrudRepository<Groups, Integer> {
     Iterable<Groups> findAll();
 
 
+    @Query(value = "SELECT * FROM `groups` WHERE id IN ( SELECT groups_id FROM `users_groups` INNER JOIN `groups` ON groups.id = users_groups.groups_id WHERE user_id = :id)",
+            nativeQuery = true)
+    Iterable<Groups> findGroupsByUserId(@Param("id") Integer id);
+
+
     @Query(value = "SELECT * FROM `groups` WHERE id IN ( SELECT groups_id FROM `users_groups` INNER JOIN `groups` ON groups.id = users_groups.groups_id WHERE user_id = :id AND is_mdt = true )",
             nativeQuery = true)
-    Iterable<Groups> findByUserId(@Param("id") Integer id);
+    Iterable<Groups> findMdtGroupsByUserId(@Param("id") Integer id);
 
     @Query(value = "SELECT * FROM `groups` WHERE id IN ( SELECT groups_id FROM `users_groups` INNER JOIN `groups` ON groups.id = users_groups.groups_id WHERE user_id = :id AND is_mdt = true )",
             nativeQuery = true)
