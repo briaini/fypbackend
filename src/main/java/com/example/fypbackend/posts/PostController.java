@@ -40,6 +40,7 @@ public class PostController {
         return "Added Post";
     }
 
+//    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MDT')")
     @GetMapping(path = "")
     public Iterable<Post> getAllPost() {
         return postRepository.findAll();

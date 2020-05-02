@@ -8,6 +8,7 @@ import com.example.fypbackend.posts.Post;
 import com.example.fypbackend.posts.PostRepository;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,10 +28,13 @@ public class UserController {
     @Autowired
     GroupsRepository groupsRepository;
 
+
     @GetMapping(path = "")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MDT')")
     public Iterable<PersistUser> getAllUsers() {
         return persistUserRepository.findAll();
     }
+
 
     @PostMapping(path = "/userID")
     public Integer getUserId(@RequestBody String username) {
@@ -60,6 +64,7 @@ public class UserController {
      localhost:8080/groups/58/posts/0
      **/
     @PostMapping(path = "/{userId}/hiddenposts/{postId}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MDT','ROLE_PATIENT')")
     public String hidePostFromGroup(@PathVariable("userId") Integer userId, @PathVariable("postId") Integer postId) {
         Groups group = groupsRepository.findMdtByPatientId(userId);
         Post post = postRepository.findById(postId).get();
@@ -71,6 +76,7 @@ public class UserController {
     }
 
     @GetMapping(path = "/{userId}/posts")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MDT','ROLE_PATIENT')")
     public Iterable<Post> getUserPosts(@PathVariable("userId") Integer userId) {
         System.out.println("UserController.getUserPosts(): getting user#" + userId + "'s posts");
         System.out.println(postRepository.findUserPosts(userId));
@@ -78,11 +84,13 @@ public class UserController {
     }
 
     @GetMapping(path = "/{id}/groups")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MDT','ROLE_PATIENT')")
     public Groups getGroup(@PathVariable("id") Integer id) {
         return groupsRepository.findById(groupsRepository.getGroupIdByUserId(id)).get();
     }
 
     @PostMapping(path = "/{patientId}/posts/{postId}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MDT','ROLE_PATIENT')")
     public String linkPostToPatient(@PathVariable("patientId") Integer patientId, @PathVariable("postId") Integer postId) {
         Groups group = groupsRepository.findById(groupsRepository.getGroupIdByUserId(patientId)).get();
         Post post = postRepository.findById(postId).get();
@@ -92,6 +100,7 @@ public class UserController {
     }
 
     @GetMapping(path = "/patients")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MDT','ROLE_PATIENT')")
     public List<Patient> getAllPatients() {
         List<PersistUser> allAssignedPatientsBefore = persistUserRepository.getAllAssignedPatients();
         List<PersistUser> allUnassignedPatientsBefore = persistUserRepository.getAllUnassignedPatients();

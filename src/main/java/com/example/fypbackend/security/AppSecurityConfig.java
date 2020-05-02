@@ -44,24 +44,18 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager()))
                 .addFilterAfter(new JwtTokenVerifier(), JwtUsernameAndPasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/", "index", "/css/*", "/js/*", "/login", "/posts", "/users", "/users/*/posts", "/users/test", "/users/*", "/comments").permitAll()
+                .antMatchers("/", "index", "/css/*", "/js/*", "/login", "/users/*").permitAll()
 
-                .antMatchers("/api/**").hasRole(PATIENT.name())
-//                .antMatchers(HttpMethod.DELETE, "/management/api/**").hasAuthority(AppUserPermission.COURSE_WRITE.getPermission())
-//                .antMatchers(HttpMethod.POST, "/management/api/**").hasAuthority(AppUserPermission.COURSE_WRITE.getPermission())
-//                .antMatchers(HttpMethod.PUT, "/management/api/**").hasAuthority(AppUserPermission.COURSE_WRITE.getPermission())
-//                .antMatchers(HttpMethod.GET, "/management/api/**").hasAuthority(AppUserPermission.COURSE_WRITE.getPermission())
+                .antMatchers("/comments/*").hasAnyRole(ADMIN.name(), MDT.name(), PATIENT.name())
+                .antMatchers("/groups/*").hasAnyRole(ADMIN.name(), MDT.name(), PATIENT.name())
+                .antMatchers("/posts/*").hasAnyRole(ADMIN.name(), MDT.name())
+                .antMatchers("/mdt/*").hasAnyRole(ADMIN.name(), MDT.name())
+
+                //groupcontroller
+
                 .anyRequest()
                 .authenticated();
-//                .and()
-//                .formLogin()
-//                .and()
-//                .logout()
-//                .logoutUrl("/logout")
-//                .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
-//                .clearAuthentication(true)
-//                .invalidateHttpSession(true)
-//                .deleteCookies("JSESSIONID");
+
     }
 
 

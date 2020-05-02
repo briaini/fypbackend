@@ -15,7 +15,7 @@ public class Comment {
     int id;
     int subjectId;
     String textBody;
-    int postId;
+    Integer postId = null;
     int parentCommentId;
 
     //should be many to one as below
@@ -62,11 +62,11 @@ public class Comment {
         this.textBody = textBody;
     }
 
-    public int getPostId() {
+    public Integer getPostId() {
         return postId;
     }
 
-    public void setPostId(int postId) {
+    public void setPostId(Integer postId) {
         this.postId = postId;
     }
 

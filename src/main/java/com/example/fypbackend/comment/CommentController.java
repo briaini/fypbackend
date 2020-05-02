@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("")
+@RequestMapping("/comments")
 public class CommentController {
 
     @Autowired
@@ -34,18 +34,18 @@ public class CommentController {
 ////        comment.setPost(post);
 //        commentRepository.save(comment);
 //        return "Comment created";
+////    }
+//
+//    @GetMapping(path = "users/{userId}/comments")
+//    public List<Comment> getComments(@PathVariable int userId) {
+////        public String getAllComments(@PathVariable int userId) {
+////        System.out.println("getting comments");
+////        System.out.println(commentRepository.findByUserId(0));
+////        List<Comment> commentList = new ArrayList();
+//        return commentRepository.findByUserId(userId);
 //    }
 
-    @GetMapping(path = "users/{userId}/comments")
-    public List<Comment> getComments(@PathVariable int userId) {
-//        public String getAllComments(@PathVariable int userId) {
-//        System.out.println("getting comments");
-//        System.out.println(commentRepository.findByUserId(0));
-//        List<Comment> commentList = new ArrayList();
-        return commentRepository.findByUserId(userId);
-    }
-
-    @GetMapping(path = "/comments")
+    @GetMapping(path = "")
     public Iterable<Comment> getAllComments() {
         return commentRepository.findAll();
     }

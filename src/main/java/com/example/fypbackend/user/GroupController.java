@@ -113,6 +113,26 @@ public class GroupController {
         return "Sent comment";
     }
 
+    @PostMapping(path = "/{groupID}/messages")
+    public String messageToGroup(@RequestBody String body, @PathVariable("groupID") Integer groupID) {
+//        System.out.println(commentRecipientRepository.findAll().toString());
+
+        CommentRecipient recipient = commentRecipientRepository.getByGroupId(groupID);
+
+//        CommentRecipient recipient = commentRecipientRepository.findById(recipientId).get();
+        Set<Comment> commentSet = recipient.getComments();
+//
+        Gson gson = new Gson();
+        Comment comment = gson.fromJson(body, Comment.class);
+        comment.setCommentRecipient(recipient);
+
+        commentSet.add(comment);
+        recipient.setComments(commentSet);
+
+        commentRecipientRepository.save(recipient);
+        return "Sent comment";
+    }
+
     @PostMapping(path = "/{groupId}/hiddenposts/{postId}")
     public String postNotVisibleToGroup(@PathVariable("groupId") Integer groupId, @PathVariable("postId") Integer postId) {
         Groups group = groupsRepository.findById(groupId).get();
