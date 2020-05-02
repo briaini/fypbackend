@@ -9,6 +9,7 @@ import com.example.fypbackend.posts.PostRepository;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +19,9 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/users")
 public class UserController {
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Autowired
     PersistUserRepository persistUserRepository;
@@ -54,8 +58,11 @@ public class UserController {
 */
     @PostMapping(path = "")
     public @ResponseBody String createUser(@RequestBody String body) {
+        System.out.println(body);
         Gson gson = new Gson();
         PersistUser user = gson.fromJson(body, PersistUser.class);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        System.out.println(user);
         persistUserRepository.save(user);
         return "Saved new user";
     }

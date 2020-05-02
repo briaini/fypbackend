@@ -37,7 +37,8 @@ public class FakeUserDaoService implements UserDao {
         List<User> users = new ArrayList<>();
 
         persistUsers.forEach((x) ->
-            users.add(new User(x.getUsername(), passwordEncoder.encode(x.getPassword()), UserRole.valueOf(x.getRole()).getGrantedAuthorities(), x.getAccountNonExpired(), x.getAccountNonLocked(), x.getCredentialsNonExpired(), x.getEnabled())));
+                users.add(new User(x.getUsername(), x.getPassword(), UserRole.valueOf(x.getRole()).getGrantedAuthorities(), x.getAccountNonExpired(), x.getAccountNonLocked(), x.getCredentialsNonExpired(), x.getEnabled())));
+//            users.add(new User(x.getUsername(), passwordEncoder.encode(x.getPassword()), UserRole.valueOf(x.getRole()).getGrantedAuthorities(), x.getAccountNonExpired(), x.getAccountNonLocked(), x.getCredentialsNonExpired(), x.getEnabled())));
 
         return users;
     }
