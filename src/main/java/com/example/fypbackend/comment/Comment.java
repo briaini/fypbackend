@@ -4,6 +4,7 @@ import com.example.fypbackend.posts.Post;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Set;
 
 
@@ -14,11 +15,14 @@ public class Comment {
     @GeneratedValue
     int id;
     int subjectId;
+    String subjectName;
     String textBody;
     Integer postId = null;
     int parentCommentId;
+    Timestamp timestamp;
 
-    //should be many to one as below
+
+//should be many to one as below
 //    @OneToOne(fetch = FetchType.LAZY, optional = false)
 //    @JoinColumn(name = "comment_recipient", nullable = false)
 //    private CommentRecipient recipient;
@@ -28,7 +32,13 @@ public class Comment {
     @JoinColumn(name = "comment_recipient", nullable = false)
     private CommentRecipient commentRecipient;
 
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
 
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
+    }
 //    Date date;
 
 
@@ -37,6 +47,14 @@ public class Comment {
 //    private Post post;
 
     public Comment() {}
+
+    public String getSubjectName() {
+        return subjectName;
+    }
+
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
+    }
 
     public int getId() {
         return id;

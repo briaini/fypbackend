@@ -12,6 +12,8 @@ import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @RestController
@@ -97,6 +99,9 @@ public class GroupController {
     public String commentToGroup(@RequestBody String body, @PathVariable("groupID") Integer groupID) {
 //        System.out.println(commentRecipientRepository.findAll().toString());
 
+        System.out.println("------------------------------------");
+        System.out.println(body);
+
         CommentRecipient recipient = commentRecipientRepository.getByGroupId(groupID);
 
 //        CommentRecipient recipient = commentRecipientRepository.findById(recipientId).get();
@@ -104,6 +109,7 @@ public class GroupController {
 //
         Gson gson = new Gson();
         Comment comment = gson.fromJson(body, Comment.class);
+        comment.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
         comment.setCommentRecipient(recipient);
 
         commentSet.add(comment);
