@@ -60,6 +60,16 @@ public class GroupController {
         return "Saved new group";
     }
 
+    @DeleteMapping(path = "/{groupId}")
+    public @ResponseBody String deleteGroup(@PathVariable("groupId") Integer groupId) {
+        try{
+            groupsRepository.deleteById(groupId);
+            return "deleted";
+        } catch( Error e) {
+            return "fail";
+        }
+    }
+
     /**
         localhost:8080/groups/58/users/0
      **/

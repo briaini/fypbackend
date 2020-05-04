@@ -40,6 +40,16 @@ public class PostController {
         return "Added Post";
     }
 
+    @DeleteMapping(path = "/{postId}")
+    public @ResponseBody String deletePost(@PathVariable("postId") Integer postId) {
+        try{
+            postRepository.deleteById(postId);
+            return "deleted";
+        } catch( Error e) {
+            return "fail";
+        }
+    }
+
 //    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MDT')")
     @GetMapping(path = "")
     public Iterable<Post> getAllPost() {
