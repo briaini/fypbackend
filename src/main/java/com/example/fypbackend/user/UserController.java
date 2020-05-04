@@ -12,7 +12,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -66,6 +68,46 @@ public class UserController {
         persistUserRepository.save(user);
         return "Saved new user";
     }
+
+    @PutMapping(path = "")
+    public @ResponseBody String updateUs(@RequestBody String body) {
+        System.out.println("test before Gson:\n " + body + "\n");
+
+        Gson gson = new Gson();
+        Map<String,Object> map = new HashMap<String,Object>();
+        map = (Map<String,Object>) gson.fromJson(body, map.getClass());
+
+        String username = (String) map.get("username");
+        String role = (String) map.get("role");
+        int id = (int) Math.round((Double) map.get("id"));
+        int accountNonExpired = (int) Math.round((Double) map.get("accountNonExpired"));
+        int accountNonLocked = (int) Math.round((Double) map.get("accountNonLocked"));
+        int credentialsNonExpired = (int) Math.round((Double) map.get("credentialsNonExpired"));
+        int enabled = (int) Math.round((Double) map.get("enabled"));
+
+        PersistUser user = persistUserRepository.findById(id).get();
+
+        user.setId(id);
+        user.setAccountNonExpired(accountNonExpired);
+        user.setAccountNonLocked(accountNonLocked);
+        user.setCredentialsNonExpired(credentialsNonExpired);
+        user.setEnabled(enabled);
+
+        persistUserRepository.save(user);
+        return "Updated User";
+    }
+
+    @GetMapping(path = "/admin/{userId}")
+    public String adminGetUser(@PathVariable("userId") Integer userId) {
+        PersistUser user = persistUserRepository.findById(userId).get();
+//        \"id\":"+user.getId()+",
+        System.out.println(userId);
+        System.out.println(  "{\"username\":\""+user.getUsername()+"\",\"password\":\""+user.getPassword()+"\",\"role\":\""+user.getRole()+"\",\"accountNonExpired\":"+user.getAccountNonExpired()+",\"accountNonLocked\":"+user.getAccountNonLocked()+", \"credentialsNonExpired\":"+user.getCredentialsNonExpired()+",\"enabled\":"+user.getEnabled()+"}");
+
+        return "{\"id\":"+user.getId()+", \"username\":\""+user.getUsername()+"\",\"password\":\""+user.getPassword()+"\",\"role\":\""+user.getRole()+"\",\"accountNonExpired\":"+user.getAccountNonExpired()+",\"accountNonLocked\":"+user.getAccountNonLocked()+", \"credentialsNonExpired\":"+user.getCredentialsNonExpired()+",\"enabled\":"+user.getEnabled()+"}";
+//        return persistUserRepository.findById(userId).get();
+    }
+
 
     /**
      localhost:8080/groups/58/posts/0
