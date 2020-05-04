@@ -70,7 +70,7 @@ public class UserController {
     }
 
     @PutMapping(path = "")
-    public @ResponseBody String updateUs(@RequestBody String body) {
+    public @ResponseBody String updateUser(@RequestBody String body) {
         System.out.println("test before Gson:\n " + body + "\n");
 
         Gson gson = new Gson();
@@ -101,10 +101,10 @@ public class UserController {
     public String adminGetUser(@PathVariable("userId") Integer userId) {
         PersistUser user = persistUserRepository.findById(userId).get();
 //        \"id\":"+user.getId()+",
-        System.out.println(userId);
-        System.out.println(  "{\"username\":\""+user.getUsername()+"\",\"password\":\""+user.getPassword()+"\",\"role\":\""+user.getRole()+"\",\"accountNonExpired\":"+user.getAccountNonExpired()+",\"accountNonLocked\":"+user.getAccountNonLocked()+", \"credentialsNonExpired\":"+user.getCredentialsNonExpired()+",\"enabled\":"+user.getEnabled()+"}");
+//        System.out.println(userId);
+//        System.out.println(  "{\"username\":\""+user.getUsername()+"\",\"password\":\""+user.getPassword()+"\",\"role\":\""+user.getRole()+"\",\"accountNonExpired\":"+user.getAccountNonExpired()+",\"accountNonLocked\":"+user.getAccountNonLocked()+", \"credentialsNonExpired\":"+user.getCredentialsNonExpired()+",\"enabled\":"+user.getEnabled()+"}");
 
-        return "{\"id\":"+user.getId()+", \"username\":\""+user.getUsername()+"\",\"password\":\""+user.getPassword()+"\",\"role\":\""+user.getRole()+"\",\"accountNonExpired\":"+user.getAccountNonExpired()+",\"accountNonLocked\":"+user.getAccountNonLocked()+", \"credentialsNonExpired\":"+user.getCredentialsNonExpired()+",\"enabled\":"+user.getEnabled()+"}";
+        return "{\"id\":"+user.getId()+", \"username\":\""+user.getUsername().trim()+"\",\"password\":\""+user.getPassword()+"\",\"role\":\""+user.getRole()+"\",\"accountNonExpired\":"+user.getAccountNonExpired()+",\"accountNonLocked\":"+user.getAccountNonLocked()+", \"credentialsNonExpired\":"+user.getCredentialsNonExpired()+",\"enabled\":"+user.getEnabled()+"}";
 //        return persistUserRepository.findById(userId).get();
     }
 
