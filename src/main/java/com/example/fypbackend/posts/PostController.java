@@ -24,7 +24,7 @@ public class PostController {
 //    Works normal createPost
     @PostMapping(path = "")
     public @ResponseBody String createPost(@RequestBody String body) {
-          System.out.println("test before Gson:\n " + body + "\n");
+//          System.out.println("test before Gson:\n " + body + "\n");
           Gson gson = new Gson();
           Post post = gson.fromJson(body, Post.class);
         postRepository.save(post);
@@ -33,7 +33,7 @@ public class PostController {
 
     @PutMapping(path = "")
     public @ResponseBody String updatePost(@RequestBody String body) {
-        System.out.println("test before Gson:\n " + body + "\n");
+//        System.out.println("test before Gson:\n " + body + "\n");
         Gson gson = new Gson();
         Post post = gson.fromJson(body, Post.class);
         postRepository.save(post);

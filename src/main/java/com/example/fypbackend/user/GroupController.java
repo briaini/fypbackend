@@ -52,8 +52,8 @@ public class GroupController {
         Groups group = gson.fromJson(body, Groups.class);
         Groups savedGroup = groupsRepository.save(group);
 
-        System.out.println("tset create group");
-        System.out.println(savedGroup.getId());
+//        System.out.println("tset create group");
+//        System.out.println(savedGroup.getId());
         CommentRecipient commentRecipient = new CommentRecipient();
         commentRecipient.setRecipientGroup(savedGroup);
         commentRecipientRepository.save(commentRecipient);
@@ -109,8 +109,8 @@ public class GroupController {
     public String commentToGroup(@RequestBody String body, @PathVariable("groupID") Integer groupID) {
 //        System.out.println(commentRecipientRepository.findAll().toString());
 
-        System.out.println("------------------------------------");
-        System.out.println(body);
+//        System.out.println("------------------------------------");
+//        System.out.println(body);
 
         CommentRecipient recipient = commentRecipientRepository.getByGroupId(groupID);
 
@@ -153,7 +153,7 @@ public class GroupController {
     public String postNotVisibleToGroup(@PathVariable("groupId") Integer groupId, @PathVariable("postId") Integer postId) {
         Groups group = groupsRepository.findById(groupId).get();
         Post post = postRepository.findById(postId).get();
-        System.out.println(""+ group.id + " " + postId);
+//        System.out.println(""+ group.id + " " + postId);
         group.getPosts().remove(post);
         group.getHiddenposts().add(post);
         groupsRepository.save(group);
@@ -164,7 +164,7 @@ public class GroupController {
     public String postVisibleToGroup(@PathVariable("groupId") Integer groupId, @PathVariable("postId") Integer postId) {
         Groups group = groupsRepository.findById(groupId).get();
         Post post = postRepository.findById(postId).get();
-        System.out.println(""+ group.id + " " + postId);
+//        System.out.println(""+ group.id + " " + postId);
         group.getPosts().add(post);
         group.getHiddenposts().remove(post);
         groupsRepository.save(group);

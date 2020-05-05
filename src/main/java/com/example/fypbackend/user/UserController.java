@@ -60,18 +60,18 @@ public class UserController {
 */
     @PostMapping(path = "")
     public @ResponseBody String createUser(@RequestBody String body) {
-        System.out.println(body);
+//        System.out.println(body);
         Gson gson = new Gson();
         PersistUser user = gson.fromJson(body, PersistUser.class);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        System.out.println(user);
+//        System.out.println(user);
         persistUserRepository.save(user);
         return "Saved new user";
     }
 
     @PutMapping(path = "")
     public @ResponseBody String updateUser(@RequestBody String body) {
-        System.out.println("test before Gson:\n " + body + "\n");
+//        System.out.println("test before Gson:\n " + body + "\n");
 
         Gson gson = new Gson();
         Map<String,Object> map = new HashMap<String,Object>();
@@ -117,7 +117,7 @@ public class UserController {
     public String hidePostFromGroup(@PathVariable("userId") Integer userId, @PathVariable("postId") Integer postId) {
         Groups group = groupsRepository.findMdtByPatientId(userId);
         Post post = postRepository.findById(postId).get();
-        System.out.println(""+ group.id + " " + postId);
+//        System.out.println(""+ group.id + " " + postId);
         group.getPosts().remove(post);
         group.getHiddenposts().add(post);
         groupsRepository.save(group);
@@ -127,8 +127,8 @@ public class UserController {
     @GetMapping(path = "/{userId}/posts")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MDT','ROLE_PATIENT')")
     public Iterable<Post> getUserPosts(@PathVariable("userId") Integer userId) {
-        System.out.println("UserController.getUserPosts(): getting user#" + userId + "'s posts");
-        System.out.println(postRepository.findUserPosts(userId));
+//        System.out.println("UserController.getUserPosts(): getting user#" + userId + "'s posts");
+//        System.out.println(postRepository.findUserPosts(userId));
         return postRepository.findUserPosts(userId);
     }
 
@@ -153,8 +153,8 @@ public class UserController {
     public List<Patient> getAllPatients() {
         List<PersistUser> allAssignedPatientsBefore = persistUserRepository.getAllAssignedPatients();
         List<PersistUser> allUnassignedPatientsBefore = persistUserRepository.getAllUnassignedPatients();
-        System.out.println("un" +allUnassignedPatientsBefore);
-        System.out.println("A" +allAssignedPatientsBefore);
+//        System.out.println("un" +allUnassignedPatientsBefore);
+//        System.out.println("A" +allAssignedPatientsBefore);
 
         List<Patient> patients = allAssignedPatientsBefore.stream()
                 .map(x -> new Patient(x.getId(), x.getUsername(), groupsRepository.getGroupIdByUserId(x.getId()))).collect(Collectors.toList());
