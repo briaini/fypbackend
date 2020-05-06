@@ -36,18 +36,24 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
             UsernameAndPasswordAuthenticationRequest authenticationRequest = new ObjectMapper().readValue(request.getInputStream(), UsernameAndPasswordAuthenticationRequest.class);
+            System.out.println("in auth filter: ");
             System.out.println(authenticationRequest.getUsername());
             System.out.println(authenticationRequest.getPassword());
             Authentication authentication = new UsernamePasswordAuthenticationToken(
                     authenticationRequest.getUsername(),
                     authenticationRequest.getPassword()
             );
+            System.out.println("before authenticate");
+
             Authentication authenticate = authenticationManager.authenticate(authentication);
+            System.out.println(authenticate.isAuthenticated());
             return authenticate;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
+
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request,

@@ -13,12 +13,15 @@ public class UserService implements UserDetailsService {
     private final UserDao userDao;
 
     @Autowired
-    public UserService(@Qualifier("fake") UserDao userDao) {
+    public UserService(@Qualifier("myuserdao") UserDao userDao) {
         this.userDao = userDao;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        System.out.println("loading by username "+ username);
+
+        System.out.println("user service load user " + userDao.selectByUsername(username).get().getUsername()+ " " +userDao.selectByUsername(username).get().getPassword());
         return userDao.selectByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("Username %S not found ", username)));
     }

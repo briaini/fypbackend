@@ -46,10 +46,11 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterAfter(new JwtTokenVerifier(), JwtUsernameAndPasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/", "index", "/css/*", "/js/*", "/login", "/users/*").permitAll()
+                .antMatchers("/posts/*").permitAll()
 
                 .antMatchers("/comments/*").hasAnyRole(ADMIN.name(), MDT.name(), PATIENT.name())
                 .antMatchers("/groups/*").hasAnyRole(ADMIN.name(), MDT.name(), PATIENT.name())
-                .antMatchers("/posts/*").hasAnyRole(ADMIN.name(), MDT.name())
+//                .antMatchers("/posts/*").hasAnyRole(ADMIN.name(), MDT.name())
                 .antMatchers("/mdt/*").hasAnyRole(ADMIN.name(), MDT.name())
 
                 //groupcontroller
@@ -67,9 +68,15 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setPasswordEncoder(passwordEncoder);
+        System.out.println("calling daoauthprov()");
+        DaoAuthenticationProvider provider = new DaoAuthProv();
         provider.setUserDetailsService(userService);
+        provider.setPasswordEncoder(passwordEncoder);
+        System.out.println("finished daoauthprov()");
+
+        String result = passwordEncoder.encode("myPassword");
+        System.out.print("test encoder: "+passwordEncoder.matches("myPassword", result));
+
         return provider;
     }
 

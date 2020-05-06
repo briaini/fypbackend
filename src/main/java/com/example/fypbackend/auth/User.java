@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Set;
 
+//Used in MyUserDao
 public class User implements UserDetails {
 
     private final Set<? extends GrantedAuthority> grantedAuthorities;

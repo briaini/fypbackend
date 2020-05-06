@@ -10,6 +10,9 @@ public class PasswordConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(10);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
+        String result = encoder.encode("myPassword");
+        System.out.print("test encoder: "+encoder.matches("myPassword", result));
+        return encoder;
     }
 }

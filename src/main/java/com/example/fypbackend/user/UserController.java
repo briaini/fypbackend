@@ -47,19 +47,20 @@ public class UserController {
         return persistUserRepository.getUserId(username);
     }
 
-/*
-    {
-        "username": "patient2@gmail.com",
-            "password": "Password1",
-            "role": "PATIENT",
-            "accountNonExpired": 1,
-            "accountNonLocked": 1,
-            "credentialsNonExpired": 1,
-            "enabled": 1
-    }
-*/
+    /*
+        {
+            "username": "patient2@gmail.com",
+                "password": "Password1",
+                "role": "PATIENT",
+                "accountNonExpired": 1,
+                "accountNonLocked": 1,
+                "credentialsNonExpired": 1,
+                "enabled": 1
+        }
+    */
     @PostMapping(path = "")
-    public @ResponseBody String createUser(@RequestBody String body) {
+    public @ResponseBody
+    String createUser(@RequestBody String body) {
 //        System.out.println(body);
         Gson gson = new Gson();
         PersistUser user = gson.fromJson(body, PersistUser.class);
@@ -70,12 +71,13 @@ public class UserController {
     }
 
     @PutMapping(path = "")
-    public @ResponseBody String updateUser(@RequestBody String body) {
+    public @ResponseBody
+    String updateUser(@RequestBody String body) {
 //        System.out.println("test before Gson:\n " + body + "\n");
 
         Gson gson = new Gson();
-        Map<String,Object> map = new HashMap<String,Object>();
-        map = (Map<String,Object>) gson.fromJson(body, map.getClass());
+        Map<String, Object> map = new HashMap<String, Object>();
+        map = (Map<String, Object>) gson.fromJson(body, map.getClass());
 
         String username = (String) map.get("username");
         String role = (String) map.get("role");
@@ -104,13 +106,13 @@ public class UserController {
 //        System.out.println(userId);
 //        System.out.println(  "{\"username\":\""+user.getUsername()+"\",\"password\":\""+user.getPassword()+"\",\"role\":\""+user.getRole()+"\",\"accountNonExpired\":"+user.getAccountNonExpired()+",\"accountNonLocked\":"+user.getAccountNonLocked()+", \"credentialsNonExpired\":"+user.getCredentialsNonExpired()+",\"enabled\":"+user.getEnabled()+"}");
 
-        return "{\"id\":"+user.getId()+", \"username\":\""+user.getUsername().trim()+"\",\"password\":\""+user.getPassword()+"\",\"role\":\""+user.getRole()+"\",\"accountNonExpired\":"+user.getAccountNonExpired()+",\"accountNonLocked\":"+user.getAccountNonLocked()+", \"credentialsNonExpired\":"+user.getCredentialsNonExpired()+",\"enabled\":"+user.getEnabled()+"}";
+        return "{\"id\":" + user.getId() + ", \"username\":\"" + user.getUsername().trim() + "\",\"password\":\"" + user.getPassword() + "\",\"role\":\"" + user.getRole() + "\",\"accountNonExpired\":" + user.getAccountNonExpired() + ",\"accountNonLocked\":" + user.getAccountNonLocked() + ", \"credentialsNonExpired\":" + user.getCredentialsNonExpired() + ",\"enabled\":" + user.getEnabled() + "}";
 //        return persistUserRepository.findById(userId).get();
     }
 
 
     /**
-     localhost:8080/groups/58/posts/0
+     * localhost:8080/groups/58/posts/0
      **/
     @PostMapping(path = "/{userId}/hiddenposts/{postId}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MDT','ROLE_PATIENT')")
@@ -135,7 +137,11 @@ public class UserController {
     @GetMapping(path = "/{id}/groups")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MDT','ROLE_PATIENT')")
     public Groups getGroup(@PathVariable("id") Integer id) {
-        return groupsRepository.findById(groupsRepository.getGroupIdByUserId(id)).get();
+        if (groupsRepository.findById(groupsRepository.getGroupIdByUserId(id)).isPresent()) {
+            return groupsRepository.findById(groupsRepository.getGroupIdByUserId(id)).get();
+        } else {
+            return null;
+        }
     }
 
     @PostMapping(path = "/{patientId}/posts/{postId}")
@@ -172,9 +178,6 @@ public class UserController {
 //                .map(x -> new Patient(x.getId(), x.getUsername(), null)).collect(Collectors.toList());
 //        return patients;
 //    }
-
-
-
 
 
     // old methods below
