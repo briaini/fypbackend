@@ -65,6 +65,7 @@ public class UserController {
         Gson gson = new Gson();
         PersistUser user = gson.fromJson(body, PersistUser.class);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setLoginattempts(0);
 //        System.out.println(user);
         persistUserRepository.save(user);
         return "Saved new user";
@@ -94,6 +95,7 @@ public class UserController {
         user.setAccountNonLocked(accountNonLocked);
         user.setCredentialsNonExpired(credentialsNonExpired);
         user.setEnabled(enabled);
+        user.setLoginattempts(0);
 
         persistUserRepository.save(user);
         return "Updated User";
@@ -167,6 +169,17 @@ public class UserController {
         patients.addAll(allUnassignedPatientsBefore.stream()
                 .map(x -> new Patient(x.getId(), x.getUsername(), null)).collect(Collectors.toList()));
         return patients;
+    }
+
+
+    @DeleteMapping(path = "/{userId}")
+    public @ResponseBody String deleteUser(@PathVariable("userId") Integer userId) {
+        try{
+            persistUserRepository.deleteById(userId);
+            return "deleted";
+        } catch( Error e) {
+            return "fail";
+        }
     }
 
 
