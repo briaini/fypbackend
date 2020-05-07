@@ -2,9 +2,11 @@ package com.example.fypbackend.security;
 
 //import com.example.fypbackend.auth.ApplicationUserService;
 
+import com.example.fypbackend.auth.PersistUserRepository;
 import com.example.fypbackend.auth.UserService;
 import com.example.fypbackend.jwt.JwtTokenVerifier;
 import com.example.fypbackend.jwt.JwtUsernameAndPasswordAuthenticationFilter;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +29,9 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
+
+    @Autowired
+    PersistUserRepository persistUserRepository;
 
 
     @Autowired
@@ -69,7 +74,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         System.out.println("calling daoauthprov()");
-        DaoAuthenticationProvider provider = new DaoAuthProv();
+        DaoAuthenticationProvider provider = new DaoAuthProv(persistUserRepository);
         provider.setUserDetailsService(userService);
         provider.setPasswordEncoder(passwordEncoder);
         System.out.println("finished daoauthprov()");
