@@ -141,6 +141,7 @@ public class GroupController {
         Gson gson = new Gson();
         Comment comment = gson.fromJson(body, Comment.class);
         comment.setCommentRecipient(recipient);
+        comment.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
 
         commentSet.add(comment);
         recipient.setComments(commentSet);
@@ -151,6 +152,9 @@ public class GroupController {
 
     @PostMapping(path = "/{groupId}/hiddenposts/{postId}")
     public String postNotVisibleToGroup(@PathVariable("groupId") Integer groupId, @PathVariable("postId") Integer postId) {
+        System.out.println(groupId);
+        System.out.println(postId);
+
         Groups group = groupsRepository.findById(groupId).get();
         Post post = postRepository.findById(postId).get();
 //        System.out.println(""+ group.id + " " + postId);

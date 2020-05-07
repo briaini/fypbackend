@@ -26,20 +26,20 @@ public class DaoAuthProv extends DaoAuthenticationProvider {
         if (passwordEncoder.matches((String) authentication.getCredentials(), getUserDetailsService().loadUserByUsername(requesterUsername).getPassword()) && (getUserDetailsService().loadUserByUsername(requesterUsername).isAccountNonLocked())) {
             PersistUser user = persistUserRepository.findById(userId).get();
             System.out.println("the user is: " + user.getId());
-            Integer newInt = user.getLoginattempts()+1;
-            user.setLoginattempts(newInt);
+            user.setLoginattempts(0);
             return createSuccessAuthentication(authentication.getPrincipal(), authentication, getUserDetailsService().loadUserByUsername(authentication.getPrincipal().toString()));
         } else {
+
             System.out.println("WRONG PASSWORD");
             //get current count
             //if +1==3 set nonlocked = 0
             PersistUser user = persistUserRepository.findById(userId).get();
             Integer preLoginAttempts = user.getLoginattempts();
-            if (preLoginAttempts == 2){
+            if (preLoginAttempts == 2) {
                 user.setLoginattempts(0);
                 user.setAccountNonLocked(0);
-        }else{
-                user.setLoginattempts(preLoginAttempts+1);
+            } else {
+                user.setLoginattempts(preLoginAttempts + 1);
             }
             persistUserRepository.save(user);
             return null;

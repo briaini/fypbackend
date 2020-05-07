@@ -183,6 +183,32 @@ public class UserController {
     }
 
 
+    @PostMapping(path = "/{userId}/patienthiddenposts/{postId}")
+    public String patientPostNotVisibleToGroup(@PathVariable("userId") Integer userId, @PathVariable("postId") Integer postId) {
+        System.out.println(userId);
+        System.out.println(postId);
+
+        Groups group = groupsRepository.findMdtByPatientId(userId);
+        Post post = postRepository.findById(postId).get();
+//        System.out.println(""+ group.id + " " + postId);
+        group.getPosts().remove(post);
+        group.getHiddenposts().add(post);
+        groupsRepository.save(group);
+        return "Linked post to group";
+    }
+
+    @PostMapping(path = "/{userId}/patientvisibleposts/{postId}")
+    public String patientPostVisibleToGroup(@PathVariable("userId") Integer userId, @PathVariable("postId") Integer postId) {
+        Groups group = groupsRepository.findMdtByPatientId(userId);
+        Post post = postRepository.findById(postId).get();
+//        System.out.println(""+ group.id + " " + postId);
+        group.getPosts().add(post);
+        group.getHiddenposts().remove(post);
+        groupsRepository.save(group);
+        return "Linked post to group";
+    }
+
+
 //    @GetMapping(path = "/unassignedPatients")
 //    public List<Patient> getUnassignedPatients() {
 //        List<PersistUser> allUnassignedPatientsBefore = persistUserRepository.getAllUnassignedPatients();
