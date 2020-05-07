@@ -169,6 +169,7 @@ public class UserController {
         return patients;
     }
 
+
 //    @GetMapping(path = "/unassignedPatients")
 //    public List<Patient> getUnassignedPatients() {
 //        List<PersistUser> allUnassignedPatientsBefore = persistUserRepository.getAllUnassignedPatients();

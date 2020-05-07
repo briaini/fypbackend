@@ -33,4 +33,6 @@ public interface PersistUserRepository extends CrudRepository<PersistUser, Integ
             nativeQuery = true)
     List<PersistUser> getPatients(@Param("id") Integer id);
 
+
+
 }

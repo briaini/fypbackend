@@ -30,6 +30,8 @@ public class PersistUser {
     private int credentialsNonExpired;
     @Column(name="enabled")
     private int enabled;
+    @Column(name="loginattempts", nullable = true)
+    private Integer loginattempts;
 
     //CommentRecipient
 
@@ -130,6 +132,14 @@ public class PersistUser {
 
     public void setEnabled(int enabled) {
         this.enabled = enabled;
+    }
+
+    public Integer getLoginattempts() {
+        return loginattempts;
+    }
+
+    public void setLoginattempts(Integer loginattempts) {
+        this.loginattempts = loginattempts;
     }
 
     @Override

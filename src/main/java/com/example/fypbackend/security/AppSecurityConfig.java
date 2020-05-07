@@ -6,6 +6,7 @@ import com.example.fypbackend.auth.PersistUserRepository;
 import com.example.fypbackend.auth.UserService;
 import com.example.fypbackend.jwt.JwtTokenVerifier;
 import com.example.fypbackend.jwt.JwtUsernameAndPasswordAuthenticationFilter;
+import com.example.fypbackend.user.UserController;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
