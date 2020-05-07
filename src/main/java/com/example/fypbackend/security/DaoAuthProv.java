@@ -37,7 +37,7 @@ public class DaoAuthProv extends DaoAuthenticationProvider {
             Integer preLoginAttempts = user.getLoginattempts();
             if (preLoginAttempts == 2){
                 user.setLoginattempts(0);
-            user.setAccountNonLocked(0);
+                user.setAccountNonLocked(0);
         }else{
                 user.setLoginattempts(preLoginAttempts+1);
             }
