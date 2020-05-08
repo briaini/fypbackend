@@ -22,7 +22,7 @@ public class DaoAuthProv extends DaoAuthenticationProvider {
         String requesterUsername = authentication.getPrincipal().toString();
 
         int userId = persistUserRepository.getUserId(requesterUsername);
-        System.out.print("this guys userid is: " + userId);
+
         if (passwordEncoder.matches((String) authentication.getCredentials(), getUserDetailsService().loadUserByUsername(requesterUsername).getPassword()) && (getUserDetailsService().loadUserByUsername(requesterUsername).isAccountNonLocked())) {
             PersistUser user = persistUserRepository.findById(userId).get();
             System.out.println("the user is: " + user.getId());

@@ -56,16 +56,6 @@ public class JwtUtil {
     }
 
     private String createToken(Map<String, Object> claims, String subject) {
-
-
-//        JwtToken.builder().value(Jwts.builder()
-//                .setClaims(createClaims(account))
-//                .setSubject(subject.toString())
-//                .setIssuedAt(Date.from(createdDateTime))
-//                .setExpiration(Date.from(expirationDateTime))
-//                .signWith(getSigningKey())
-//                .compact()).expiration(expirationDateTime.toString()).build()
-
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();

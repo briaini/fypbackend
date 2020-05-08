@@ -161,9 +161,6 @@ public class UserController {
     public List<Patient> getAllPatients() {
         List<PersistUser> allAssignedPatientsBefore = persistUserRepository.getAllAssignedPatients();
         List<PersistUser> allUnassignedPatientsBefore = persistUserRepository.getAllUnassignedPatients();
-//        System.out.println("un" +allUnassignedPatientsBefore);
-//        System.out.println("A" +allAssignedPatientsBefore);
-
         List<Patient> patients = allAssignedPatientsBefore.stream()
                 .map(x -> new Patient(x.getId(), x.getUsername(), groupsRepository.getGroupIdByUserId(x.getId()))).collect(Collectors.toList());
         patients.addAll(allUnassignedPatientsBefore.stream()
